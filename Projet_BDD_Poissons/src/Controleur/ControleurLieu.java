@@ -47,4 +47,40 @@ public class ControleurLieu {
         this.navigateurDesVues.naviguerVersVueLieu();
         this.navigateurDesVues.naviguerVersVueListeLieu();*/
     }
+
+    public NavigateurDesVues getNavigateurDesVues() {
+        return navigateurDesVues;
+    }
+
+    public void setNavigateurDesVues(NavigateurDesVues navigateurDesVues) {
+        this.navigateurDesVues = navigateurDesVues;
+    }
+
+    public VueAjouterLieu getVueAjouterLieu() {
+        return vueAjouterLieu;
+    }
+
+    public void setVueAjouterLieu(VueAjouterLieu vueAjouterLieu) {
+        this.vueAjouterLieu = vueAjouterLieu;
+    }
+
+    public VueListeLieu getVueListeLieu() {
+        return vueListeLieu;
+    }
+
+    public void setVueListeLieu(VueListeLieu vueListeLieu) {
+        this.vueListeLieu = vueListeLieu;
+    }
+
+    public VueLieu getVueLieu() {
+        return vueLieu;
+    }
+
+    public void setVueLieu(VueLieu vueLieu) {
+        this.vueLieu = vueLieu;
+    }
+
+    public static void setInstance(ControleurLieu instance) {
+        ControleurLieu.instance = instance;
+    }
 }
