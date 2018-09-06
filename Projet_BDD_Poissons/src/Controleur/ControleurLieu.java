@@ -17,6 +17,9 @@ public class ControleurLieu {
     private VueListeLieu vueListeLieu;
     private VueLieu vueLieu;
 
+    //test
+    private LieuDAO lieuDAO = new LieuDAO();
+
     private ControleurLieu() {}
 
     private static ControleurLieu instance = null; //null est important
@@ -38,7 +41,6 @@ public class ControleurLieu {
 
 
         //test
-        LieuDAO lieuDAO = new LieuDAO();
         List<Lieu> listeLieuTest = lieuDAO.listerLieu();
         this.vueListeLieu.afficherListeLieu(listeLieuTest);
 
@@ -46,6 +48,10 @@ public class ControleurLieu {
         /*this.navigateurDesVues.naviguerVersVueAjouterLieu();
         this.navigateurDesVues.naviguerVersVueLieu();
         this.navigateurDesVues.naviguerVersVueListeLieu();*/
+    }
+
+    public void notifierActionEditerLieu(int numero){
+
     }
 
     public NavigateurDesVues getNavigateurDesVues() {
@@ -82,5 +88,13 @@ public class ControleurLieu {
 
     public static void setInstance(ControleurLieu instance) {
         ControleurLieu.instance = instance;
+    }
+
+    public LieuDAO getLieuDAO() {
+        return lieuDAO;
+    }
+
+    public void setLieuDAO(LieuDAO lieuDAO) {
+        this.lieuDAO = lieuDAO;
     }
 }

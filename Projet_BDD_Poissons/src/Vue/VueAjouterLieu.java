@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.ControleurLieu;
+import Modele.Lieu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -29,14 +30,6 @@ public class VueAjouterLieu extends Scene {
 
         controleurLieu = ControleurLieu.getInstance();
 
-        actionEnregistrerLieu = new Button("Enregistrer");
-        actionEnregistrerLieu.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controleurLieu.getNavigateurDesVues().naviguerVersVueListeLieu();
-            }
-        });
-
         valeurVille = new TextField();
         grilleLieu.add(new Label("Nom : "), 0, 0);
         grilleLieu.add(valeurVille, 1, 0);
@@ -52,6 +45,18 @@ public class VueAjouterLieu extends Scene {
         valeurEstCapital = new TextField();
         grilleLieu.add(new Label("Est capital : "), 0, 3);
         grilleLieu.add(valeurEstCapital, 1, 3);
+
+        actionEnregistrerLieu = new Button("Enregistrer");
+        actionEnregistrerLieu.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controleurLieu.getLieuDAO().ajouterLieu(
+                        new Lieu(valeurVille.getText(),valeurTaille.getText(),valeurhabitants.getText(), valeurEstCapital.getText())
+                );
+                controleurLieu.getVueListeLieu().afficherListeLieu(controleurLieu.getLieuDAO().listerLieu());
+                controleurLieu.getNavigateurDesVues().naviguerVersVueListeLieu();
+            }
+        });
 
         panneau.getChildren().add(new Label("Ajouter un lieu"));
         panneau.getChildren().add(grilleLieu);

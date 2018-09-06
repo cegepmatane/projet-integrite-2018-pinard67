@@ -29,21 +29,36 @@ public class VueListeLieu extends Scene {
 
     public void afficherListeLieu(List<Lieu> listeMoutons)
     {
+        this.grilleLieus.getChildren().clear();
+
         int numero = 0;
         this.grilleLieus.add(new Label("Ville : "), 0, numero);
         this.grilleLieus.add(new Label("Taille : "), 1, numero);
         this.grilleLieus.add(new Label("Habitants : "), 2, numero);
         this.grilleLieus.add(new Label("Capital :"), 3, numero);
+        this.grilleLieus.add(new Label(""), 4, numero);
         for(Lieu lieu : listeMoutons){
             numero++;
             this.grilleLieus.add(new Label(lieu.getVille()), 0, numero);
             this.grilleLieus.add(new Label(lieu.getTaille()), 1, numero);
             this.grilleLieus.add(new Label(lieu.getHabitant()), 2, numero);
             this.grilleLieus.add(new Label(lieu.getEstCapital()), 3, numero);
+
+            Button actionEditer = new Button("Editer");
+            int finalNumero = numero;
+            actionEditer.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    controleurLieu.notifierActionEditerLieu(finalNumero);
+                    controleurLieu.getNavigateurDesVues().naviguerVersVueEditerLieu();
+                }
+            });
+            this.grilleLieus.add(actionEditer,4, numero);
         }
 
         actionNaviguerAjouterLieu = new Button("Ajouter lieu");
         this.grilleLieus.add(actionNaviguerAjouterLieu,0,++numero);
+
         actionNaviguerAjouterLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
