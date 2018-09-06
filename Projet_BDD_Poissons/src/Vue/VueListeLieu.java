@@ -3,9 +3,7 @@ package Vue;
 import Controleur.ControleurLieu;
 import Modele.Lieu;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,7 +43,7 @@ public class VueListeLieu extends Scene {
         }
 
         actionNaviguerAjouterLieu = new Button("Ajouter lieu");
-        this.grilleLieus.add(actionNaviguerAjouterLieu,1,++numero);
+        this.grilleLieus.add(actionNaviguerAjouterLieu,0,++numero);
         actionNaviguerAjouterLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

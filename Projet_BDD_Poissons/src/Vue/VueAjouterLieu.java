@@ -1,5 +1,8 @@
 package Vue;
 
+import Controleur.ControleurLieu;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,10 +18,24 @@ public class VueAjouterLieu extends Scene {
     protected TextField valeurhabitants;
     protected TextField valeurEstCapital;
 
+    private ControleurLieu controleurLieu;
+
+    private Button actionEnregistrerLieu;
+
     public VueAjouterLieu()  {
         super(new VBox(), 400, 400);
         VBox panneau = (VBox) this.getRoot();
         GridPane grilleLieu = new GridPane();
+
+        controleurLieu = ControleurLieu.getInstance();
+
+        actionEnregistrerLieu = new Button("Enregistrer");
+        actionEnregistrerLieu.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controleurLieu.getNavigateurDesVues().naviguerVersVueListeLieu();
+            }
+        });
 
         valeurVille = new TextField();
         grilleLieu.add(new Label("Nom : "), 0, 0);
@@ -38,6 +55,6 @@ public class VueAjouterLieu extends Scene {
 
         panneau.getChildren().add(new Label("Ajouter un lieu"));
         panneau.getChildren().add(grilleLieu);
-        panneau.getChildren().add(new Button("Enregistrer"));
+        panneau.getChildren().add(actionEnregistrerLieu);
     }
 }
