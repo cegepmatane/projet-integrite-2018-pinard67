@@ -72,5 +72,7 @@ public class NavigateurDesVues extends Application {
     }
 
 
-
+    public VueEditerLieu getVueEditerLieu() {
+        return vueEditerLieu;
+    }
 }

@@ -1,10 +1,7 @@
 package Controleur;
 
 import Modele.Lieu;
-import Vue.NavigateurDesVues;
-import Vue.VueAjouterLieu;
-import Vue.VueLieu;
-import Vue.VueListeLieu;
+import Vue.*;
 import accesseur.LieuDAO;
 
 import java.util.List;
@@ -14,6 +11,7 @@ public class ControleurLieu {
     private NavigateurDesVues navigateurDesVues;
 
     private VueAjouterLieu vueAjouterLieu;
+    private VueEditerLieu vueEditerLieu;
     private VueListeLieu vueListeLieu;
     private VueLieu vueLieu;
 
@@ -38,6 +36,7 @@ public class ControleurLieu {
         this.vueAjouterLieu = this.navigateurDesVues.getVueAjouterLieu();
         this.vueListeLieu = this.navigateurDesVues.getVueListeLieu();
         this.vueLieu = this.navigateurDesVues.getVueLieu();
+        this.vueEditerLieu = this.navigateurDesVues.getVueEditerLieu();
 
 
         //test
@@ -51,6 +50,17 @@ public class ControleurLieu {
     }
 
     public void notifierActionEditerLieu(int numero){
+        System.out.println("Numero : "+numero);
+        for (int i = 0; i < this.lieuDAO.listerLieu().size(); i++){
+            if (numero == i){
+                System.out.println("Ville : "+lieuDAO.listerLieu().get(i).getVille());
+                vueEditerLieu.updateVueEditerLieu(lieuDAO.listerLieu().get(i));
+                break;
+            }
+        }
+    }
+
+    public void notifierActionEnregistrerLieu() {
 
     }
 
@@ -97,4 +107,6 @@ public class ControleurLieu {
     public void setLieuDAO(LieuDAO lieuDAO) {
         this.lieuDAO = lieuDAO;
     }
+
+
 }
