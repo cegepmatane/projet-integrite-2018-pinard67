@@ -56,7 +56,32 @@ public class LieuDAO {
     }
 
     public List<Lieu> listerLieu() {
+        List<Lieu> listeLieu = new ArrayList<>();
 
-        return simulelisterLieus();
+        try {
+            Connection connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
+
+            Statement requeteListeLieu = connection.createStatement();
+            ResultSet curseurListeLieu = requeteListeLieu.executeQuery("SELECT * FROM lieu");
+
+
+
+            while (curseurListeLieu.next())
+            {
+                int id = curseurListeLieu.getInt("id_lieu");
+                String ville = curseurListeLieu.getString("ville");
+                String taille = curseurListeLieu.getString("taille");
+                String habitant = curseurListeLieu.getString("habitant");
+                String estCapital = curseurListeLieu.getString("estCapital");
+
+                System.out.println("nom:"+ville+" taille:"+taille+" Hbaitants : "+ habitant+" est capital : "+estCapital);
+                listeLieu.add(new Lieu(id,ville,taille,habitant,estCapital));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listeLieu;
     }
 }
