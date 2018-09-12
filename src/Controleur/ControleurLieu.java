@@ -40,7 +40,7 @@ public class ControleurLieu {
 
 
         //test
-        List<Lieu> listeLieuTest = lieuDAO.simulelisterLieus();
+        List<Lieu> listeLieuTest = lieuDAO.listerLieu();
         this.vueListeLieu.afficherListeLieu(listeLieuTest);
 
         //test

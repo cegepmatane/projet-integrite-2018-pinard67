@@ -33,7 +33,7 @@ public class VueListeLieu extends Scene {
 
         int numero = 0;
         this.grilleLieus.add(new Label("Ville : "), 0, numero);
-        this.grilleLieus.add(new Label("Taille : "), 1, numero);
+        this.grilleLieus.add(new Label("Taille : (en km2)"), 1, numero);
         this.grilleLieus.add(new Label("Habitants : "), 2, numero);
         this.grilleLieus.add(new Label("Capital :"), 3, numero);
         this.grilleLieus.add(new Label(""), 4, numero);

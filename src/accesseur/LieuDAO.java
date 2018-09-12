@@ -2,11 +2,34 @@ package accesseur;
 
 import Modele.Lieu;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LieuDAO {
     private List listeLieusTest = new ArrayList<Lieu>();
+
+    private static String BASEDEDONNEES_DRIVER = "org.postgresql.Driver";
+    private static String BASEDEDONNEES_URL = "jdbc:postgresql://localhost:5432/lieuPeche";
+    private static String BASEDEDONNEES_USAGER = "postgres";
+    private static String BASEDEDONNEES_MOTDEPASSE = "09021999";
+
+
+    private Connection connection = null;
+
+    public LieuDAO(){
+        try {
+            Class.forName(BASEDEDONNEES_DRIVER);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<Lieu> simulelisterLieus() {
         listeLieusTest.add(new Lieu(1, "Matane", "228,5 km²", "14 462", "non"));
@@ -33,6 +56,7 @@ public class LieuDAO {
     }
 
     public List<Lieu> listerLieu() {
-        return listeLieusTest;
+
+        return simulelisterLieus();
     }
 }
