@@ -23,8 +23,6 @@ public class VueEditerLieu extends Scene {
     private Pane panneau;
     private ControleurLieu controleurLieu;
 
-    private Lieu lieuAModifier;
-
     public VueEditerLieu(){
         super(new Pane(),400,400);
         panneau = (Pane) this.getRoot();
@@ -34,6 +32,8 @@ public class VueEditerLieu extends Scene {
     }
 
     public void updateVueEditerLieu(Lieu lieu){
+        this.panneau.getChildren().clear();
+        this.grilleLieu.getChildren().clear();
 
         textValeurVille = new TextField(lieu.getVille());
         grilleLieu.add(new Label("Nom : "), 0, 0);
@@ -61,8 +61,8 @@ public class VueEditerLieu extends Scene {
             }
         });
 
-        grilleLieu.add(actionEnregistrerLieu,0,4);
+        this.grilleLieu.add(actionEnregistrerLieu,0,4);
 
-        panneau.getChildren().add(grilleLieu);
+        this.panneau.getChildren().add(grilleLieu);
     }
 }

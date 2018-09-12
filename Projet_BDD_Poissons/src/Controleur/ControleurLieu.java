@@ -18,8 +18,7 @@ public class ControleurLieu {
     //test
     private LieuDAO lieuDAO = new LieuDAO();
 
-    private ControleurLieu() {
-    }
+    private ControleurLieu() {}
 
     private static ControleurLieu instance = null; //null est important
 
