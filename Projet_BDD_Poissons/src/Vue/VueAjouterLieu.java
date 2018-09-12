@@ -50,11 +50,9 @@ public class VueAjouterLieu extends Scene {
         actionEnregistrerLieu.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controleurLieu.getLieuDAO().ajouterLieu(
-                        new Lieu(valeurVille.getText(),valeurTaille.getText(),valeurhabitants.getText(), valeurEstCapital.getText())
-                );
-                controleurLieu.getVueListeLieu().afficherListeLieu(controleurLieu.getLieuDAO().listerLieu());
-                controleurLieu.getNavigateurDesVues().naviguerVersVueListeLieu();
+                Lieu lieuAjouter = new Lieu(0,valeurVille.getText().toString(),valeurTaille.getText().toString(),valeurhabitants.getText().toString(), valeurEstCapital.getText().toString());
+                System.out.println("ajout de : "+lieuAjouter.getVille());
+                controleurLieu.notifierActionAjouterLieu(lieuAjouter);
             }
         });
 

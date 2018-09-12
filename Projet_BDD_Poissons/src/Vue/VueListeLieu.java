@@ -27,7 +27,7 @@ public class VueListeLieu extends Scene {
         panneau.getChildren().add(grilleLieus);
     }
 
-    public void afficherListeLieu(List<Lieu> listeMoutons)
+    public void afficherListeLieu(List<Lieu> listeLieu)
     {
         this.grilleLieus.getChildren().clear();
 
@@ -37,7 +37,7 @@ public class VueListeLieu extends Scene {
         this.grilleLieus.add(new Label("Habitants : "), 2, numero);
         this.grilleLieus.add(new Label("Capital :"), 3, numero);
         this.grilleLieus.add(new Label(""), 4, numero);
-        for(Lieu lieu : listeMoutons){
+        for(Lieu lieu : listeLieu){
             numero++;
             this.grilleLieus.add(new Label(lieu.getVille()), 0, numero);
             this.grilleLieus.add(new Label(lieu.getTaille()), 1, numero);
@@ -45,7 +45,7 @@ public class VueListeLieu extends Scene {
             this.grilleLieus.add(new Label(lieu.getEstCapital()), 3, numero);
 
             Button actionEditer = new Button("Editer");
-            int finalNumero = numero-1;
+            int finalNumero = numero;
             actionEditer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -59,6 +59,7 @@ public class VueListeLieu extends Scene {
         }
 
         actionNaviguerAjouterLieu = new Button("Ajouter lieu");
+
         this.grilleLieus.add(actionNaviguerAjouterLieu,0,++numero);
 
         actionNaviguerAjouterLieu.setOnAction(new EventHandler<ActionEvent>() {

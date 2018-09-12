@@ -1,6 +1,7 @@
 package Modele;
 
 public class Lieu {
+    protected int id;
     protected String ville;
     protected String taille;
     protected String habitant;
@@ -10,13 +11,17 @@ public class Lieu {
         this.ville = ville;
     }
 
-    public Lieu(String ville, String taille, String habitant, String estCapital) {
+    public Lieu(int id,String ville, String taille, String habitant, String estCapital) {
         this.ville = ville;
         this.taille = taille;
         this.habitant = habitant;
         this.estCapital = estCapital;
+        this.id = id;
     }
 
+    public int getId(){
+        return id;
+    }
 
     public String getVille() {
         return ville;

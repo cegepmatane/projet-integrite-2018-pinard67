@@ -40,7 +40,7 @@ public class ControleurLieu {
 
 
         //test
-        List<Lieu> listeLieuTest = lieuDAO.listerLieu();
+        List<Lieu> listeLieuTest = lieuDAO.simulelisterLieus();
         this.vueListeLieu.afficherListeLieu(listeLieuTest);
 
         //test
@@ -49,10 +49,16 @@ public class ControleurLieu {
         this.navigateurDesVues.naviguerVersVueListeLieu();*/
     }
 
+    public void notifierActionAjouterLieu(Lieu lieuAjouter) {
+        this.lieuDAO.ajouterLieu(lieuAjouter);
+        this.vueListeLieu.afficherListeLieu(lieuDAO.listerLieu());
+        this.navigateurDesVues.naviguerVersVueListeLieu();
+    }
+
     public void notifierActionEditerLieu(int numero){
         System.out.println("Numero : "+numero);
         for (int i = 0; i < this.lieuDAO.listerLieu().size(); i++){
-            if (numero == i){
+            if (numero == lieuDAO.listerLieu().get(i).getId()){
                 System.out.println("Ville : "+lieuDAO.listerLieu().get(i).getVille());
                 vueEditerLieu.updateVueEditerLieu(lieuDAO.listerLieu().get(i));
                 break;
@@ -60,8 +66,15 @@ public class ControleurLieu {
         }
     }
 
-    public void notifierActionEnregistrerLieu() {
-
+    public void notifierActionEnregistrerLieu(Lieu lieu) {
+        for (int i = 0; i < this.lieuDAO.listerLieu().size(); i++){
+            if (i == lieuDAO.listerLieu().get(i).getId()){
+                System.out.println("Ville : "+lieuDAO.listerLieu().get(i).getVille());
+                vueEditerLieu.updateVueEditerLieu(lieuDAO.listerLieu().get(i));
+                break;
+            }
+        }
+    }
     }
 
     public NavigateurDesVues getNavigateurDesVues() {
@@ -107,6 +120,5 @@ public class ControleurLieu {
     public void setLieuDAO(LieuDAO lieuDAO) {
         this.lieuDAO = lieuDAO;
     }
-
 
 }
