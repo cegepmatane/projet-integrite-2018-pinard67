@@ -34,7 +34,6 @@ public class VueEditerLieu extends Scene {
     }
 
     public void updateVueEditerLieu(Lieu lieu){
-        lieuAModifier = lieu;
 
         textValeurVille = new TextField(lieu.getVille());
         grilleLieu.add(new Label("Nom : "), 0, 0);
@@ -56,12 +55,8 @@ public class VueEditerLieu extends Scene {
         actionEnregistrerLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                lieuAModifier.setVille(textValeurVille.getText());
-                lieuAModifier.setHabitant(textValeurVille.getText());
-                lieuAModifier.setTaille(textValeurVille.getText());
-                lieuAModifier.setEstCapital(textValeurVille.getText());
-
-                controleurLieu.notifierActionEnregistrerLieu(lieuAModifier);
+                Lieu lieuModifier = new Lieu(lieu.getId(),textValeurVille.getText(),textValeurTaille.getText(),textValeurHabitant.getText(),textValeurEstCapital.getText());
+                controleurLieu.notifierActionEnregistrerLieu(lieuModifier);
                 controleurLieu.getNavigateurDesVues().naviguerVersVueListeLieu();
             }
         });

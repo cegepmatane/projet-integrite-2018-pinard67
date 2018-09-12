@@ -45,14 +45,11 @@ public class VueListeLieu extends Scene {
             this.grilleLieus.add(new Label(lieu.getEstCapital()), 3, numero);
 
             Button actionEditer = new Button("Editer");
-            int finalNumero = numero;
             actionEditer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("numero " + finalNumero);
-                    controleurLieu.notifierActionEditerLieu(finalNumero);
-                    System.out.println("Notifier");
-                    controleurLieu.getNavigateurDesVues().naviguerVersVueEditerLieu();
+                    controleurLieu.notifierActionEditerLieu(lieu);
+                    System.out.println("Notifier navigation modifier");
                 }
             });
             this.grilleLieus.add(actionEditer,4, numero);
