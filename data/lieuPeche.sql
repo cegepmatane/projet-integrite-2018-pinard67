@@ -92,10 +92,55 @@ ALTER SEQUENCE public.lieu_id_seq OWNED BY public.lieu.id;
 
 
 --
+-- Name: poisson; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.poisson (
+    id integer NOT NULL,
+    nom text,
+    famille text,
+    taille integer,
+    poids integer,
+    id_lieu integer
+);
+
+
+ALTER TABLE public.poisson OWNER TO postgres;
+
+--
+-- Name: poisson_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.poisson_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.poisson_id_seq OWNER TO postgres;
+
+--
+-- Name: poisson_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.poisson_id_seq OWNED BY public.poisson.id;
+
+
+--
 -- Name: lieu id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lieu ALTER COLUMN id SET DEFAULT nextval('public.lieu_id_seq'::regclass);
+
+
+--
+-- Name: poisson id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.poisson ALTER COLUMN id SET DEFAULT nextval('public.poisson_id_seq'::regclass);
 
 
 --
@@ -105,14 +150,30 @@ ALTER TABLE ONLY public.lieu ALTER COLUMN id SET DEFAULT nextval('public.lieu_id
 INSERT INTO public.lieu VALUES (1, 'Quebec', 1546056, 14323, 'non');
 INSERT INTO public.lieu VALUES (2, 'Matane', 228, 14342, 'non');
 INSERT INTO public.lieu VALUES (3, 'Otawa', 2772, 947031, 'oui');
-INSERT INTO public.lieu VALUES (4, 'Montréal', 431, 1724983, 'non');
+INSERT INTO public.lieu VALUES (7, 'Haguenau', 1234, 60532, 'non');
+INSERT INTO public.lieu VALUES (5, 'SOUFLOUM', 120, 22222, 'non');
+INSERT INTO public.lieu VALUES (6, 'Baie-Comeau', 45, 8234, 'non');
+INSERT INTO public.lieu VALUES (4, 'azerty', 1, 1, 'eeee');
+
+
+--
+-- Data for Name: poisson; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
 
 
 --
 -- Name: lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lieu_id_seq', 4, true);
+SELECT pg_catalog.setval('public.lieu_id_seq', 7, true);
+
+
+--
+-- Name: poisson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.poisson_id_seq', 1, false);
 
 
 --
@@ -121,6 +182,22 @@ SELECT pg_catalog.setval('public.lieu_id_seq', 4, true);
 
 ALTER TABLE ONLY public.lieu
     ADD CONSTRAINT lieu_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: poisson poisson_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.poisson
+    ADD CONSTRAINT poisson_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: poisson foreign_key_id_lieu; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.poisson
+    ADD CONSTRAINT foreign_key_id_lieu FOREIGN KEY (id_lieu) REFERENCES public.lieu(id);
 
 
 --
