@@ -55,8 +55,8 @@ public class ControleurLieu {
         this.navigateurDesVues.naviguerVersVueListeLieu();
     }
 
-    public void notifierActionNaviguerEditerLieu(Lieu lieu) {
-        this.vueEditerLieu.updateVueEditerLieu(lieu);
+    public void notifierActionNaviguerEditerLieu(int idLieu) {
+        this.vueEditerLieu.updateVueEditerLieu(this.lieuDAO.rapporterLieu(idLieu));
         this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
 

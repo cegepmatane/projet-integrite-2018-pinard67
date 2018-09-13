@@ -90,4 +90,25 @@ public class LieuDAO {
             e.printStackTrace();
         }
     }
+
+    public Lieu rapporterLieu(int idLieu){
+        try {
+            Statement requeteLieu = connection.createStatement();
+            String SQL_RAPPORTER_LIEU = "SELECT * FROM lieu WHERE id = " + idLieu;
+            System.out.println(SQL_RAPPORTER_LIEU);
+            ResultSet curseurLieu = requeteLieu.executeQuery(SQL_RAPPORTER_LIEU);
+            curseurLieu.next();
+            int id = curseurLieu.getInt("id");
+            String ville = curseurLieu.getString("ville");
+            int taille = curseurLieu.getInt("taille");
+            int habitant = curseurLieu.getInt("habitant");
+            String estcapitale = curseurLieu.getString("estcapitale");
+            System.out.println("Lieu : " + ville + " Taille : " + taille + " Habitant : " + habitant + " Capitale : " + estcapitale);
+            Lieu lieu = new Lieu(id, ville, taille, habitant, estcapitale);
+            return lieu;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
