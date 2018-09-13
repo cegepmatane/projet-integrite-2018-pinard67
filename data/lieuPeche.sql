@@ -160,6 +160,11 @@ INSERT INTO public.lieu VALUES (4, 'azerty', 1, 1, 'eeee');
 -- Data for Name: poisson; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.poisson VALUES (1, 'saumon', 'salmonidée', 47, 453, 1);
+INSERT INTO public.poisson VALUES (2, 'truite', 'salmonidée', 27, 214, 1);
+INSERT INTO public.poisson VALUES (3, 'brochet', 'Esox Lucuis', 86, 4521, 2);
+INSERT INTO public.poisson VALUES (4, 'perche', 'percidée', 37, 347, 3);
+INSERT INTO public.poisson VALUES (5, 'silure', 'siluridé', 156, 6542, 2);
 
 
 --
@@ -173,7 +178,7 @@ SELECT pg_catalog.setval('public.lieu_id_seq', 7, true);
 -- Name: poisson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.poisson_id_seq', 1, false);
+SELECT pg_catalog.setval('public.poisson_id_seq', 5, true);
 
 
 --
