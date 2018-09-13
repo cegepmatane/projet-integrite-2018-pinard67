@@ -2,6 +2,7 @@ package Vue;
 
 import Controleur.ControleurLieu;
 import Modele.Lieu;
+import Modele.Poisson;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -11,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.util.List;
+
 public class VueEditerLieu extends Scene {
 
     protected TextField textValeurVille;
@@ -19,16 +22,22 @@ public class VueEditerLieu extends Scene {
     protected TextField textValeurEstCapital;
 
     private Button actionEnregistrerLieu;
+    private Button actionNaviguerAjouterPoisson;
     private GridPane grilleLieu;
+    private GridPane grillePoissons;
+    private GridPane grillePrincipal;
     private Pane panneau;
+
     private ControleurLieu controleurLieu;
 
     private int idLieu = 0;
 
     public VueEditerLieu() {
-        super(new Pane(), 400, 400);
+        super(new Pane(), 450, 400);
         panneau = (Pane) this.getRoot();
         grilleLieu = new GridPane();
+        grillePoissons = new GridPane();
+        grillePrincipal = new GridPane();
 
         controleurLieu = ControleurLieu.getInstance();
     }
@@ -66,15 +75,61 @@ public class VueEditerLieu extends Scene {
 
         this.grilleLieu.add(actionEnregistrerLieu, 0, 4);
 
-        this.panneau.getChildren().add(grilleLieu);
+        this.grillePrincipal.add(grilleLieu, 0, 1);
+        this.grillePrincipal.add(new Label("\n\t Liste des poissons a : " + textValeurVille.getText() + "\n"), 0, 2);
+
+        this.grillePrincipal.add(grillePoison(controleurLieu.getPoissonDAO().simulelisterLieus()), 0, 3);
+        this.panneau.getChildren().add(grillePrincipal);
     }
 
-    public Lieu demanderLieu()
-    {
-        Lieu lieu = new Lieu(idLieu,this.textValeurVille.getText(),
+    public Lieu demanderLieu() {
+        Lieu lieu = new Lieu(idLieu, this.textValeurVille.getText(),
                 Integer.parseInt(this.textValeurTaille.getText()),
                 Integer.parseInt(this.textValeurHabitant.getText()),
                 this.textValeurEstCapital.getText());
         return lieu;
+    }
+
+    private GridPane grillePoison(List<Poisson> list) {
+        List<Poisson> listePoisson = list;
+
+        this.grillePoissons.getChildren().clear();
+
+        int numero = 1;
+        this.grillePoissons.add(new Label("Nom : "), 0, numero);
+        this.grillePoissons.add(new Label("Famille : "), 1, numero);
+        this.grillePoissons.add(new Label("Taille (en cm): "), 2, numero);
+        this.grillePoissons.add(new Label("Poids (en g):"), 3, numero);
+        this.grillePoissons.add(new Label(""), 4, numero);
+        for (Poisson poisson : listePoisson) {
+            numero++;
+            this.grillePoissons.add(new Label(poisson.getNom()), 0, numero);
+            this.grillePoissons.add(new Label(poisson.getFamille()), 1, numero);
+            this.grillePoissons.add(new Label("" + poisson.getTaille()), 2, numero);
+            this.grillePoissons.add(new Label("" + poisson.getPoids()), 3, numero);
+
+            Button actionEditer = new Button("Editer");
+            actionEditer.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    //controleurLieu.notifierActionNaviguerEditerPoisson(poisson.getId()); TODO
+                    System.out.println("Notifier navigation modifier poisson");
+                }
+            });
+            this.grillePoissons.add(actionEditer, 4, numero);
+        }
+
+        actionNaviguerAjouterPoisson = new Button("Ajouter poisson");
+
+        this.grillePoissons.add(actionNaviguerAjouterPoisson, 0, ++numero);
+
+        actionNaviguerAjouterPoisson.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //controleurLieu.getNavigateurDesVues().naviguerVersVueAjouterPoisson(); TODO
+            }
+        });
+
+        return grillePoissons;
     }
 }

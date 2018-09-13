@@ -7,10 +7,6 @@ public class Lieu {
     protected int habitant;
     protected String estCapital;
 
-    public Lieu(String ville) {
-        this.ville = ville;
-    }
-
     public Lieu(int id,String ville, int taille, int habitant, String estCapital) {
         this.ville = ville;
         this.taille = taille;

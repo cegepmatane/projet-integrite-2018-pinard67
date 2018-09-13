@@ -1,5 +1,6 @@
 package Controleur;
 
+import Accesseur.PoissonDAO;
 import Modele.Lieu;
 import Vue.*;
 import Accesseur.LieuDAO;
@@ -15,8 +16,8 @@ public class ControleurLieu {
     private VueListeLieu vueListeLieu;
     private VueLieu vueLieu;
 
-    //test
     private LieuDAO lieuDAO = new LieuDAO();
+    private PoissonDAO poissonDAO = new PoissonDAO();
 
     private ControleurLieu() {}
 
@@ -108,8 +109,7 @@ public class ControleurLieu {
         return lieuDAO;
     }
 
-    public void setLieuDAO(LieuDAO lieuDAO) {
-        this.lieuDAO = lieuDAO;
+    public PoissonDAO getPoissonDAO() {
+        return poissonDAO;
     }
-
 }
