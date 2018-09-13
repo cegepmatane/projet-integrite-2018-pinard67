@@ -27,8 +27,7 @@ public class VueListeLieu extends Scene {
         panneau.getChildren().add(grilleLieus);
     }
 
-    public void afficherListeLieu(List<Lieu> listeLieu)
-    {
+    public void afficherListeLieu(List<Lieu> listeLieu) {
         this.grilleLieus.getChildren().clear();
 
         int numero = 0;
@@ -37,11 +36,11 @@ public class VueListeLieu extends Scene {
         this.grilleLieus.add(new Label("Habitants : "), 2, numero);
         this.grilleLieus.add(new Label("Capital :"), 3, numero);
         this.grilleLieus.add(new Label(""), 4, numero);
-        for(Lieu lieu : listeLieu){
+        for (Lieu lieu : listeLieu) {
             numero++;
             this.grilleLieus.add(new Label(lieu.getVille()), 0, numero);
-            this.grilleLieus.add(new Label(lieu.getTaille()), 1, numero);
-            this.grilleLieus.add(new Label(lieu.getHabitant()), 2, numero);
+            this.grilleLieus.add(new Label("" + lieu.getTaille()), 1, numero);
+            this.grilleLieus.add(new Label("" + lieu.getHabitant()), 2, numero);
             this.grilleLieus.add(new Label(lieu.getEstCapital()), 3, numero);
 
             Button actionEditer = new Button("Editer");
@@ -52,12 +51,12 @@ public class VueListeLieu extends Scene {
                     System.out.println("Notifier navigation modifier");
                 }
             });
-            this.grilleLieus.add(actionEditer,4, numero);
+            this.grilleLieus.add(actionEditer, 4, numero);
         }
 
         actionNaviguerAjouterLieu = new Button("Ajouter lieu");
 
-        this.grilleLieus.add(actionNaviguerAjouterLieu,0,++numero);
+        this.grilleLieus.add(actionNaviguerAjouterLieu, 0, ++numero);
 
         actionNaviguerAjouterLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override

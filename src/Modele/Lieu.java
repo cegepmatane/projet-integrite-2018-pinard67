@@ -3,15 +3,15 @@ package Modele;
 public class Lieu {
     protected int id;
     protected String ville;
-    protected String taille;
-    protected String habitant;
+    protected int taille;
+    protected int habitant;
     protected String estCapital;
 
     public Lieu(String ville) {
         this.ville = ville;
     }
 
-    public Lieu(int id,String ville, String taille, String habitant, String estCapital) {
+    public Lieu(int id,String ville, int taille, int habitant, String estCapital) {
         this.ville = ville;
         this.taille = taille;
         this.habitant = habitant;
@@ -31,19 +31,19 @@ public class Lieu {
         this.ville = ville;
     }
 
-    public String getTaille() {
+    public int getTaille() {
         return taille;
     }
 
-    public void setTaille(String taille) {
+    public void setTaille(int taille) {
         this.taille = taille;
     }
 
-    public String getHabitant() {
+    public int getHabitant() {
         return habitant;
     }
 
-    public void setHabitant(String habitant) {
+    public void setHabitant(int habitant) {
         this.habitant = habitant;
     }
 

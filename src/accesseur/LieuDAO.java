@@ -14,16 +14,14 @@ public class LieuDAO {
     private static String BASEDEDONNEES_USAGER = "postgres";
     private static String BASEDEDONNEES_MOTDEPASSE = "09021999";
 
-
     private Connection connection = null;
 
-    public LieuDAO(){
+    public LieuDAO() {
         try {
             Class.forName(BASEDEDONNEES_DRIVER);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         try {
             connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
         } catch (SQLException e) {
@@ -32,56 +30,56 @@ public class LieuDAO {
     }
 
     public List<Lieu> simulelisterLieus() {
-        listeLieusTest.add(new Lieu(1, "Matane", "228,5 km²", "14 462", "non"));
-        listeLieusTest.add(new Lieu(2, "Quebec", "1 542 056 km2", "8 425 996", "non"));
-        listeLieusTest.add(new Lieu(3, "Montréal", "431,5 km²", "1 741 000", "non"));
-        listeLieusTest.add(new Lieu(4, "Ottawa", "2 778 km²", "947 031", "oui"));
+        listeLieusTest.add(new Lieu(1, "Matane", 228, 14462, "non"));
+        listeLieusTest.add(new Lieu(2, "Quebec", 721 , 8425996, "non"));
+        listeLieusTest.add(new Lieu(3, "Montréal", 431, 1741000, "non"));
+        listeLieusTest.add(new Lieu(4, "Ottawa", 2778, 947031, "oui"));
 
         return listeLieusTest;
     }
 
-    public void ajouterLieu(Lieu lieu) {
-        listeLieusTest.clear();
-        listeLieusTest = simulelisterLieus();
-        this.listeLieusTest.add(lieu);
-    }
-
-    public void modifierLieu(Lieu lieu){
-        for (int i = 0; i < this.listerLieu().size(); i++) {
-            if (lieu.getId() == this.listerLieu().get(i).getId()) {
-                this.listerLieu().set(i, lieu);
-                break;
-            }
-        }
-    }
-
     public List<Lieu> listerLieu() {
         List<Lieu> listeLieu = new ArrayList<>();
-
         try {
             Connection connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
 
             Statement requeteListeLieu = connection.createStatement();
             ResultSet curseurListeLieu = requeteListeLieu.executeQuery("SELECT * FROM lieu");
 
-
-
-            while (curseurListeLieu.next())
-            {
-                int id = curseurListeLieu.getInt("id_lieu");
+            while (curseurListeLieu.next()) {
+                int id = curseurListeLieu.getInt("id");
                 String ville = curseurListeLieu.getString("ville");
-                String taille = curseurListeLieu.getString("taille");
-                String habitant = curseurListeLieu.getString("habitant");
-                String estCapital = curseurListeLieu.getString("estCapital");
-
-                System.out.println("nom:"+ville+" taille:"+taille+" Hbaitants : "+ habitant+" est capital : "+estCapital);
-                listeLieu.add(new Lieu(id,ville,taille,habitant,estCapital));
-
+                int taille = curseurListeLieu.getInt("taille");
+                int habitant = curseurListeLieu.getInt("habitant");
+                String estcapitale = curseurListeLieu.getString("estcapitale");
+                System.out.println("nom:" + ville + " taille:" + taille + " Habitants : " + habitant + " est capital : " + estcapitale);
+                listeLieu.add(new Lieu(id, ville, taille, habitant, estcapitale));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return listeLieu;
+    }
+
+    public void ajouterLieu(Lieu lieu) {
+        Statement requeteAjouterMouton = null;
+        try {
+            String REQUETE_INSERT = "INSERT into lieu(ville, habitant, taille, estcapitale) VALUES ('" + lieu.getVille() + "'," + lieu.getHabitant() + ", " + lieu.getTaille() + ",'" + lieu.getEstCapital() + "');";
+            requeteAjouterMouton = connection.createStatement();
+            System.out.println("SQL : "+REQUETE_INSERT);
+            requeteAjouterMouton.execute("INSERT into lieu(ville, habitant,taille,estcapitale) VALUES ('" + lieu.getVille() + "'," + lieu.getHabitant() + "," + lieu.getTaille() + ",'" + lieu.getEstCapital() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifierLieu(Lieu lieu) {
+        List<Lieu> listeLieu = this.listerLieu();
+        for (int i = 0; i < listeLieu.size(); i++) {
+            if (lieu.getId() == listeLieu.get(i).getId()) {
+                this.listerLieu().set(i, lieu);
+                break;
+            }
+        }
     }
 }
