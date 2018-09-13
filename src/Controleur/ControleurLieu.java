@@ -2,7 +2,7 @@ package Controleur;
 
 import Modele.Lieu;
 import Vue.*;
-import accesseur.LieuDAO;
+import Accesseur.LieuDAO;
 
 import java.util.List;
 
@@ -55,12 +55,13 @@ public class ControleurLieu {
         this.navigateurDesVues.naviguerVersVueListeLieu();
     }
 
-    public void notifierActionEditerLieu(Lieu lieu) {
+    public void notifierActionNaviguerEditerLieu(Lieu lieu) {
         this.vueEditerLieu.updateVueEditerLieu(lieu);
         this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
 
-    public void notifierActionEnregistrerLieu(Lieu lieuModifier) {
+    public void notifierActionEnregistrerLieu() {
+        Lieu lieuModifier = this.navigateurDesVues.getVueEditerLieu().demanderLieu();
         lieuDAO.modifierLieu(lieuModifier);
         vueListeLieu.afficherListeLieu(lieuDAO.listerLieu());
         this.navigateurDesVues.naviguerVersVueListeLieu();

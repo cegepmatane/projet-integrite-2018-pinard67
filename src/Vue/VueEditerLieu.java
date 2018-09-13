@@ -23,6 +23,8 @@ public class VueEditerLieu extends Scene {
     private Pane panneau;
     private ControleurLieu controleurLieu;
 
+    private int idLieu = 0;
+
     public VueEditerLieu() {
         super(new Pane(), 400, 400);
         panneau = (Pane) this.getRoot();
@@ -34,6 +36,8 @@ public class VueEditerLieu extends Scene {
     public void updateVueEditerLieu(Lieu lieu) {
         this.panneau.getChildren().clear();
         this.grilleLieu.getChildren().clear();
+
+        idLieu = lieu.getId();
 
         textValeurVille = new TextField(lieu.getVille());
         grilleLieu.add(new Label("Nom : "), 0, 0);
@@ -55,8 +59,7 @@ public class VueEditerLieu extends Scene {
         actionEnregistrerLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Lieu lieuModifier = new Lieu(lieu.getId(), textValeurVille.getText(),Integer.parseInt(textValeurTaille.getText()) ,Integer.parseInt(textValeurHabitant.getText()), textValeurEstCapital.getText());
-                controleurLieu.notifierActionEnregistrerLieu(lieuModifier);
+                controleurLieu.notifierActionEnregistrerLieu();
                 controleurLieu.getNavigateurDesVues().naviguerVersVueListeLieu();
             }
         });
@@ -64,5 +67,14 @@ public class VueEditerLieu extends Scene {
         this.grilleLieu.add(actionEnregistrerLieu, 0, 4);
 
         this.panneau.getChildren().add(grilleLieu);
+    }
+
+    public Lieu demanderLieu()
+    {
+        Lieu lieu = new Lieu(idLieu,this.textValeurVille.getText(),
+                Integer.parseInt(this.textValeurTaille.getText()),
+                Integer.parseInt(this.textValeurHabitant.getText()),
+                this.textValeurEstCapital.getText());
+        return lieu;
     }
 }

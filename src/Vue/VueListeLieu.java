@@ -47,7 +47,7 @@ public class VueListeLieu extends Scene {
             actionEditer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    controleurLieu.notifierActionEditerLieu(lieu);
+                    controleurLieu.notifierActionNaviguerEditerLieu(lieu);
                     System.out.println("Notifier navigation modifier");
                 }
             });

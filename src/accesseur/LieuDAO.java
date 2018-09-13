@@ -1,4 +1,4 @@
-package accesseur;
+package Accesseur;
 
 import Modele.Lieu;
 
@@ -75,7 +75,7 @@ public class LieuDAO {
     }
 
     public void modifierLieu(Lieu lieu) {
-        List<Lieu> listeLieu = this.listerLieu();
+        //List<Lieu> listeLieu = this.listerLieu();
 
         String SQL_REQUETE_UPDATE = "UPDATE lieu SET ville = '" + lieu.getVille() + "', taille = " + lieu.getTaille() + ", habitant = " + lieu.getHabitant() + ", estcapitale = '" + lieu.getEstCapital() + "' WHERE id = " + lieu.getId();
 
