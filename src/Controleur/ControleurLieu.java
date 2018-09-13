@@ -2,6 +2,7 @@ package Controleur;
 
 import Accesseur.PoissonDAO;
 import Modele.Lieu;
+import Modele.Poisson;
 import Vue.*;
 import Accesseur.LieuDAO;
 
@@ -66,6 +67,10 @@ public class ControleurLieu {
         lieuDAO.modifierLieu(lieuModifier);
         vueListeLieu.afficherListeLieu(lieuDAO.listerLieu());
         this.navigateurDesVues.naviguerVersVueListeLieu();
+    }
+
+    public List<Poisson> notifierListePoissonCelonLieu(Lieu lieu) {
+        return this.poissonDAO.listerPoisson(lieu.getId());
     }
 
 

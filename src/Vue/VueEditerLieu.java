@@ -78,7 +78,7 @@ public class VueEditerLieu extends Scene {
         this.grillePrincipal.add(grilleLieu, 0, 1);
         this.grillePrincipal.add(new Label("\n\t Liste des poissons a : " + textValeurVille.getText() + "\n"), 0, 2);
 
-        this.grillePrincipal.add(grillePoison(controleurLieu.getPoissonDAO().simulelisterLieus()), 0, 3);
+        this.grillePrincipal.add(grillePoison(controleurLieu.notifierListePoissonCelonLieu(lieu)), 0, 3);
         this.panneau.getChildren().add(grillePrincipal);
     }
 
@@ -101,6 +101,7 @@ public class VueEditerLieu extends Scene {
         this.grillePoissons.add(new Label("Taille (en cm): "), 2, numero);
         this.grillePoissons.add(new Label("Poids (en g):"), 3, numero);
         this.grillePoissons.add(new Label(""), 4, numero);
+
         for (Poisson poisson : listePoisson) {
             numero++;
             this.grillePoissons.add(new Label(poisson.getNom()), 0, numero);
