@@ -35,7 +35,7 @@ public class VueAjouterLieu extends Scene {
         grilleLieu.add(valeurVille, 1, 0);
 
         valeurTaille = new TextField();
-        grilleLieu.add(new Label("Taile : "), 0, 1);
+        grilleLieu.add(new Label("Taille : (en  km2)"), 0, 1);
         grilleLieu.add(valeurTaille, 1, 1);
 
         valeurhabitants = new TextField();

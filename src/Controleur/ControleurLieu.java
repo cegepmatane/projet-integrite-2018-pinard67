@@ -112,5 +112,9 @@ public class ControleurLieu {
 
     public void notifierActionSupprimerPoisson(int idPoisson,int idLieu) {
         poissonDAO.supprimerPoisson(idPoisson);
+
+        //actualiser liste poisson
+        this.vueEditerLieu.updateVueEditerLieu(lieuDAO.rapporterLieu(idLieu));
+        this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
 }

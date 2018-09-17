@@ -54,7 +54,7 @@ public class VueEditerLieu extends Scene {
         grilleLieu.add(textValeurVille, 1, 0);
 
         textValeurTaille = new TextField("" + lieu.getTaille());
-        grilleLieu.add(new Label("Taille : "), 0, 1);
+        grilleLieu.add(new Label("Taille : (en  km2) "), 0, 1);
         grilleLieu.add(textValeurTaille, 1, 1);
 
         textValeurHabitant = new TextField("" + lieu.getHabitant());
