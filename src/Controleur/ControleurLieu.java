@@ -15,6 +15,7 @@ public class ControleurLieu {
     private VueAjouterLieu vueAjouterLieu;
     private VueEditerLieu vueEditerLieu;
     private VueListeLieu vueListeLieu;
+    private VueEditerPoisson vueEditerPoisson;
     private VueLieu vueLieu;
 
     private LieuDAO lieuDAO = new LieuDAO();
@@ -39,6 +40,7 @@ public class ControleurLieu {
         this.vueListeLieu = this.navigateurDesVues.getVueListeLieu();
         this.vueLieu = this.navigateurDesVues.getVueLieu();
         this.vueEditerLieu = this.navigateurDesVues.getVueEditerLieu();
+        this.vueEditerPoisson = this.navigateurDesVues.getVueEditerPoisson();
 
 
         //test
@@ -71,6 +73,15 @@ public class ControleurLieu {
 
     public List<Poisson> notifierListePoissonCelonLieu(Lieu lieu) {
         return this.poissonDAO.listerPoisson(lieu.getId());
+    }
+
+    public void notifierActionNaviguerEditerPoisson(int idPoisson) {
+        this.vueEditerPoisson.updateVueEditerPoisson(this.lieuDAO.rapporterPoisson(idPoisson));
+        this.navigateurDesVues.naviguerVersVueEditerPoisson();
+    }
+
+    public void notifierActionEnregistrerPoisson() {
+        //TODO
     }
 
 

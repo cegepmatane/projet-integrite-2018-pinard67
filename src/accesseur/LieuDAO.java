@@ -1,6 +1,7 @@
 package Accesseur;
 
 import Modele.Lieu;
+import Modele.Poisson;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class LieuDAO {
     private static String BASEDEDONNEES_DRIVER = "org.postgresql.Driver";
     private static String BASEDEDONNEES_URL = "jdbc:postgresql://localhost:5432/lieuPeche";
     private static String BASEDEDONNEES_USAGER = "postgres";
-    private static String BASEDEDONNEES_MOTDEPASSE = "09021999";
+    private static String BASEDEDONNEES_MOTDEPASSE = "postgres";
 
     private Connection connection = null;
 
@@ -111,4 +112,29 @@ public class LieuDAO {
         }
         return null;
     }
+
+    public Poisson rapporterPoisson(int idPoisson) {
+        System.out.println("ID POISSON : "+idPoisson);
+        try {
+            Statement requetePoisson = connection.createStatement();
+            String SQL_RAPPORTER_POISSON = "SELECT * FROM poisson WHERE id = " + idPoisson;
+            System.out.println(SQL_RAPPORTER_POISSON);
+            ResultSet curseurPoisson = requetePoisson.executeQuery(SQL_RAPPORTER_POISSON);
+            curseurPoisson.next();
+
+            int id = curseurPoisson.getInt("id");
+            String nom = curseurPoisson.getString("nom");
+            String famille = curseurPoisson.getString("famille");
+            int taille = curseurPoisson.getInt("taille");
+            int poids = curseurPoisson.getInt("poids");
+
+            System.out.println("Nom poisson : " + nom + " Famille : " + famille + " Taille : " + taille + " Poids : " + poids);
+            Poisson poisson = new Poisson(id, nom, famille, taille, poids);
+            return poisson;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

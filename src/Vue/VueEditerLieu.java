@@ -45,6 +45,7 @@ public class VueEditerLieu extends Scene {
     public void updateVueEditerLieu(Lieu lieu) {
         this.panneau.getChildren().clear();
         this.grilleLieu.getChildren().clear();
+        this.grillePrincipal.getChildren().clear();
 
         idLieu = lieu.getId();
 
@@ -113,8 +114,8 @@ public class VueEditerLieu extends Scene {
             actionEditer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    //controleurLieu.notifierActionNaviguerEditerPoisson(poisson.getId()); TODO
-                    System.out.println("Notifier navigation modifier poisson");
+                    System.out.println("Notifier navigation modifier poisson : " + poisson.getNom());
+                    controleurLieu.notifierActionNaviguerEditerPoisson(poisson.getId());
                 }
             });
             this.grillePoissons.add(actionEditer, 4, numero);
