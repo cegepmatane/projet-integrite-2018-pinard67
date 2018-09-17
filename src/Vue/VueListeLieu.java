@@ -20,7 +20,7 @@ public class VueListeLieu extends Scene {
     private Button actionNaviguerAjouterLieu;
 
     public VueListeLieu() {
-        super(new GridPane(), 400, 400);
+        super(new GridPane(), 490, 400);
         Pane panneau = (Pane) this.getRoot();
         grilleLieus = new GridPane();
         controleurLieu = ControleurLieu.getInstance();
@@ -52,6 +52,16 @@ public class VueListeLieu extends Scene {
                 }
             });
             this.grilleLieus.add(actionEditer, 4, numero);
+
+            Button actionSupprimerLieu = new Button("Supprimer");
+            actionSupprimerLieu.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    controleurLieu.notifierActionNaviguerEditerLieu(lieu.getId());
+                    System.out.println("Notifier action Supprimer Lieu");
+                }
+            });
+            this.grilleLieus.add(actionSupprimerLieu, 5, numero);
         }
 
         actionNaviguerAjouterLieu = new Button("Ajouter lieu");
