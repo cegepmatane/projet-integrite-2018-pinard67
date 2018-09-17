@@ -109,4 +109,8 @@ public class ControleurLieu {
     public NavigateurDesVues getNavigateurDesVues() {
         return navigateurDesVues;
     }
+
+    public void notifierActionSupprimerPoisson(int idPoisson,int idLieu) {
+        poissonDAO.supprimerPoisson(idPoisson);
+    }
 }

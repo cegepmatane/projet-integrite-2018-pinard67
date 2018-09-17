@@ -33,7 +33,7 @@ public class VueEditerLieu extends Scene {
     private int idLieu = 0;
 
     public VueEditerLieu() {
-        super(new Pane(), 450, 400);
+        super(new Pane(), 520, 400);
         panneau = (Pane) this.getRoot();
         grilleLieu = new GridPane();
         grillePoissons = new GridPane();
@@ -119,6 +119,18 @@ public class VueEditerLieu extends Scene {
                 }
             });
             this.grillePoissons.add(actionEditer, 4, numero);
+
+            Button actionSupprimer = new Button("Supprimer");
+            actionSupprimer.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println("Notifier suppression poisson : " + poisson.getNom());
+                    controleurLieu.notifierActionSupprimerPoisson(poisson.getId(),idLieu);
+                }
+            });
+
+            this.grillePoissons.add(actionSupprimer, 5, numero);
+
         }
 
         actionNaviguerAjouterPoisson = new Button("Ajouter poisson");
