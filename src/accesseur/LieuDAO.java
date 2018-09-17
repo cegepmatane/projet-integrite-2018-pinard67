@@ -99,11 +99,13 @@ public class LieuDAO {
             System.out.println(SQL_RAPPORTER_LIEU);
             ResultSet curseurLieu = requeteLieu.executeQuery(SQL_RAPPORTER_LIEU);
             curseurLieu.next();
+
             int id = curseurLieu.getInt("id");
             String ville = curseurLieu.getString("ville");
             int taille = curseurLieu.getInt("taille");
             int habitant = curseurLieu.getInt("habitant");
             String estcapitale = curseurLieu.getString("estcapitale");
+
             System.out.println("Lieu : " + ville + " Taille : " + taille + " Habitant : " + habitant + " Capitale : " + estcapitale);
             Lieu lieu = new Lieu(id, ville, taille, habitant, estcapitale);
             return lieu;
@@ -113,28 +115,6 @@ public class LieuDAO {
         return null;
     }
 
-    public Poisson rapporterPoisson(int idPoisson) {
-        System.out.println("ID POISSON : "+idPoisson);
-        try {
-            Statement requetePoisson = connection.createStatement();
-            String SQL_RAPPORTER_POISSON = "SELECT * FROM poisson WHERE id = " + idPoisson;
-            System.out.println(SQL_RAPPORTER_POISSON);
-            ResultSet curseurPoisson = requetePoisson.executeQuery(SQL_RAPPORTER_POISSON);
-            curseurPoisson.next();
 
-            int id = curseurPoisson.getInt("id");
-            String nom = curseurPoisson.getString("nom");
-            String famille = curseurPoisson.getString("famille");
-            int taille = curseurPoisson.getInt("taille");
-            int poids = curseurPoisson.getInt("poids");
-
-            System.out.println("Nom poisson : " + nom + " Famille : " + famille + " Taille : " + taille + " Poids : " + poids);
-            Poisson poisson = new Poisson(id, nom, famille, taille, poids);
-            return poisson;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }

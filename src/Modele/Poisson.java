@@ -5,6 +5,7 @@ public class Poisson {
     protected String nom;
     protected int taille;
     protected int poids;
+    protected int id_lieu;
     protected String famille;
 
     public Poisson(String nom, String famille, int taille, int poids) {
@@ -14,12 +15,37 @@ public class Poisson {
         this.famille = famille;
     }
 
-    public Poisson(int id, String nom, String famille,int taille, int poids) {
+    public Poisson(int id, String nom, String famille, int taille, int poids, int id_lieu) {
         this.id = id;
         this.nom = nom;
         this.taille = taille;
         this.poids = poids;
         this.famille = famille;
+        this.id_lieu = id_lieu;
+    }
+
+    public Poisson(int id, String nom, String famille, int taille, int poids) {
+        this.id = id;
+        this.nom = nom;
+        this.taille = taille;
+        this.poids = poids;
+        this.famille = famille;
+    }
+
+    public Poisson(String nom, String famille, int taille, int poids, int idLieu) {
+        this.nom = nom;
+        this.taille = taille;
+        this.poids = poids;
+        this.famille = famille;
+        this.id_lieu = idLieu;
+    }
+
+    public int getId_lieu() {
+        return id_lieu;
+    }
+
+    public void setId_lieu(int id_lieu) {
+        this.id_lieu = id_lieu;
     }
 
     public int getId() {
