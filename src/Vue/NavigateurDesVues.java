@@ -10,6 +10,7 @@ public class NavigateurDesVues extends Application {
     private VueListeLieu vueListeLieu;
     private VueEditerLieu vueEditerLieu;
     private VueEditerPoisson vueEditerPoisson;
+    private VueAjouterPoisson vueAjouterPoisson;
     private VueLieu vueLieu;
 
     private ControleurLieu controleurLieu;
@@ -19,6 +20,7 @@ public class NavigateurDesVues extends Application {
         this.vueListeLieu = new VueListeLieu();
         this.vueEditerLieu = new VueEditerLieu();
         this.vueEditerPoisson = new VueEditerPoisson();
+        this.vueAjouterPoisson = new VueAjouterPoisson();
         this.vueLieu = new VueLieu();
     }
 
@@ -66,6 +68,11 @@ public class NavigateurDesVues extends Application {
         stade.show();
     }
 
+    public void naviguerVersVueAjouterPoisson() {
+        stade.setScene(vueAjouterPoisson);
+        stade.show();
+    }
+
     public VueAjouterLieu getVueAjouterLieu() {
         return vueAjouterLieu;
     }
@@ -84,5 +91,9 @@ public class NavigateurDesVues extends Application {
 
     public VueEditerPoisson getVueEditerPoisson() {
         return vueEditerPoisson;
+    }
+
+    public VueAjouterPoisson getVueAjouterPoisson() {
+        return vueAjouterPoisson;
     }
 }
