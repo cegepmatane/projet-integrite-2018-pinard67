@@ -86,20 +86,24 @@ public class ControleurLieu {
         int idLieu = poissonDAO.trouverLieuCelonPoisson(poissonModifier).getId();
         this.poissonDAO.modifierPoisson(poissonModifier);
 
+        //update et retour a la page de modification du lieu
         this.vueEditerLieu.updateVueEditerLieu(lieuDAO.rapporterLieu(idLieu));
         this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
 
     public void notifierActionNaviguerAjouterPoisson(int idLieu) {
-        //TODO
         Lieu lieuPoisson = lieuDAO.rapporterLieu(idLieu);
         this.vueAjouterPoisson.updateVueCelonLieu(lieuPoisson);
         this.navigateurDesVues.naviguerVersVueAjouterPoisson();
     }
 
     public void notifierActionAjouterPoisson() {
-        poissonDAO.ajouterPoisson(vueAjouterPoisson.demanderPoisson());
-        //TODO naviguer vers vue lieu
+        Poisson poissonAjouter = vueAjouterPoisson.demanderPoisson();
+        poissonDAO.ajouterPoisson(poissonAjouter);
+
+        //update et retour a la page de modification du lieu
+        this.vueEditerLieu.updateVueEditerLieu(lieuDAO.rapporterLieu(poissonAjouter.getId_lieu()));
+        this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
 
     public NavigateurDesVues getNavigateurDesVues() {

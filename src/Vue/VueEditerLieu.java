@@ -65,7 +65,7 @@ public class VueEditerLieu extends Scene {
         grilleLieu.add(new Label("Est capitale : "), 0, 3);
         grilleLieu.add(textValeurEstCapital, 1, 3);
 
-        actionEnregistrerLieu = new Button("Enregistrer");
+        actionEnregistrerLieu = new Button("Enregistrer Lieu");
         actionEnregistrerLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -74,12 +74,12 @@ public class VueEditerLieu extends Scene {
             }
         });
 
-        this.grilleLieu.add(actionEnregistrerLieu, 0, 4);
 
         this.grillePrincipal.add(grilleLieu, 0, 1);
         this.grillePrincipal.add(new Label("\n\t Liste des poissons a : " + textValeurVille.getText() + "\n"), 0, 2);
-
         this.grillePrincipal.add(grillePoison(controleurLieu.notifierListePoissonCelonLieu(lieu)), 0, 3);
+        this.grillePrincipal.add(new Label(), 0, 4);
+        this.grillePrincipal.add(actionEnregistrerLieu, 0, 5);
         this.panneau.getChildren().add(grillePrincipal);
     }
 
