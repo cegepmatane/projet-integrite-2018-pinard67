@@ -57,7 +57,7 @@ public class VueListeLieu extends Scene {
             actionSupprimerLieu.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    controleurLieu.notifierActionNaviguerEditerLieu(lieu.getId());
+                    controleurLieu.notifierActionSupprimerLieu(lieu.getId());
                     System.out.println("Notifier action Supprimer Lieu");
                 }
             });

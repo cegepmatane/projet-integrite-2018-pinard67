@@ -147,13 +147,10 @@ ALTER TABLE ONLY public.poisson ALTER COLUMN id SET DEFAULT nextval('public.pois
 -- Data for Name: lieu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.lieu VALUES (1, 'Quebec', 1546056, 14323, 'non');
-INSERT INTO public.lieu VALUES (2, 'Matane', 228, 14342, 'non');
-INSERT INTO public.lieu VALUES (3, 'Otawa', 2772, 947031, 'oui');
-INSERT INTO public.lieu VALUES (7, 'Haguenau', 1234, 60532, 'non');
-INSERT INTO public.lieu VALUES (5, 'SOUFLOUM', 120, 22222, 'non');
 INSERT INTO public.lieu VALUES (6, 'Baie-Comeau', 45, 8234, 'non');
-INSERT INTO public.lieu VALUES (4, 'azerty', 1, 1, 'eeee');
+INSERT INTO public.lieu VALUES (2, 'Matane', 228, 143420000, 'non');
+INSERT INTO public.lieu VALUES (1, 'Quebec', 1546056, 14323000, 'peut etre');
+INSERT INTO public.lieu VALUES (7, 'Haguenau', 1234, 60532, 'non');
 
 
 --
@@ -163,22 +160,23 @@ INSERT INTO public.lieu VALUES (4, 'azerty', 1, 1, 'eeee');
 INSERT INTO public.poisson VALUES (1, 'saumon', 'salmonidée', 47, 453, 1);
 INSERT INTO public.poisson VALUES (2, 'truite', 'salmonidée', 27, 214, 1);
 INSERT INTO public.poisson VALUES (3, 'brochet', 'Esox Lucuis', 86, 4521, 2);
-INSERT INTO public.poisson VALUES (4, 'perche', 'percidée', 37, 347, 3);
 INSERT INTO public.poisson VALUES (5, 'silure', 'siluridé', 156, 6542, 2);
+INSERT INTO public.poisson VALUES (6, 'az', 'rr', 1, 3, 1);
+INSERT INTO public.poisson VALUES (7, 'az', 'az', 12, 12, 1);
 
 
 --
 -- Name: lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lieu_id_seq', 7, true);
+SELECT pg_catalog.setval('public.lieu_id_seq', 9, true);
 
 
 --
 -- Name: poisson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.poisson_id_seq', 5, true);
+SELECT pg_catalog.setval('public.poisson_id_seq', 12, true);
 
 
 --
@@ -198,11 +196,18 @@ ALTER TABLE ONLY public.poisson
 
 
 --
--- Name: poisson foreign_key_id_lieu; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fki_fk_id_lieu; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_fk_id_lieu ON public.poisson USING btree (id_lieu);
+
+
+--
+-- Name: poisson fk_id_lieu; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.poisson
-    ADD CONSTRAINT foreign_key_id_lieu FOREIGN KEY (id_lieu) REFERENCES public.lieu(id);
+    ADD CONSTRAINT fk_id_lieu FOREIGN KEY (id_lieu) REFERENCES public.lieu(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

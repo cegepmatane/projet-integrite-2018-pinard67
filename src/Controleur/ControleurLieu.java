@@ -117,4 +117,12 @@ public class ControleurLieu {
         this.vueEditerLieu.updateVueEditerLieu(lieuDAO.rapporterLieu(idLieu));
         this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
+
+    public void notifierActionSupprimerLieu(int id) {
+        lieuDAO.supprimerLieu(id);
+
+        //actualiser liste lieu
+        this.vueListeLieu.afficherListeLieu(lieuDAO.listerLieu());
+        this.navigateurDesVues.naviguerVersVueListeLieu();
+    }
 }

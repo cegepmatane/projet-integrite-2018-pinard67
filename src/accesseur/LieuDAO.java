@@ -92,6 +92,18 @@ public class LieuDAO {
         }
     }
 
+    public void supprimerLieu(int idLieu) {
+        Statement requeteSupprimerLieu;
+        try {
+            String SQL_REQUETE_DELETE_LIEU = "DELETE FROM lieu WHERE id = " + idLieu;
+            requeteSupprimerLieu = connection.createStatement();
+            System.out.println("SQL : " + SQL_REQUETE_DELETE_LIEU);
+            requeteSupprimerLieu.execute(SQL_REQUETE_DELETE_LIEU);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Lieu rapporterLieu(int idLieu){
         try {
             Statement requeteLieu = connection.createStatement();
@@ -114,7 +126,4 @@ public class LieuDAO {
         }
         return null;
     }
-
-
-
 }
