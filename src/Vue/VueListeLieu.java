@@ -15,20 +15,26 @@ import java.util.List;
 public class VueListeLieu extends Scene {
 
     private GridPane grilleLieus;
+    private GridPane grillePrincipale;
+    private Pane panneau;
     private ControleurLieu controleurLieu = null;
 
     private Button actionNaviguerAjouterLieu;
 
     public VueListeLieu() {
-        super(new GridPane(), 490, 400);
-        Pane panneau = (Pane) this.getRoot();
+        super(new GridPane(), 500, 400);
+        panneau = (Pane) this.getRoot();
         grilleLieus = new GridPane();
+        grillePrincipale = new GridPane();
         controleurLieu = ControleurLieu.getInstance();
-        panneau.getChildren().add(grilleLieus);
+        panneau.getChildren().add(grillePrincipale);
     }
 
     public void afficherListeLieu(List<Lieu> listeLieu) {
         this.grilleLieus.getChildren().clear();
+        this.grillePrincipale.getChildren().clear();
+
+        this.grillePrincipale.add(new Label("Page des lieu de pêches : \n\n"),0,0);
 
         int numero = 0;
         this.grilleLieus.add(new Label("Ville : "), 0, numero);
@@ -65,13 +71,13 @@ public class VueListeLieu extends Scene {
         }
 
         actionNaviguerAjouterLieu = new Button("Ajouter lieu");
-
-        this.grilleLieus.add(actionNaviguerAjouterLieu, 0, ++numero);
+        this.grillePrincipale.add(grilleLieus,0,1);
+        this.grillePrincipale.add(actionNaviguerAjouterLieu, 0, 2);
 
         actionNaviguerAjouterLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controleurLieu.getNavigateurDesVues().naviguerVersVueAjouterLieu();
+                controleurLieu.notifierNaviguerVersVueAjouterLieu();
             }
         });
     }

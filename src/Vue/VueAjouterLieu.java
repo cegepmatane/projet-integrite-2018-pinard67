@@ -60,4 +60,12 @@ public class VueAjouterLieu extends Scene {
         panneau.getChildren().add(grilleLieu);
         panneau.getChildren().add(actionEnregistrerLieu);
     }
+
+    public void netoyerGrilleChamp(){
+        valeurEstCapital.setText("");
+        valeurhabitants.setText("");
+        valeurTaille.setText("");
+        valeurVille.setText("");
+    }
+
 }

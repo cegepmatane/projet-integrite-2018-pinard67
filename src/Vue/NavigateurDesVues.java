@@ -34,7 +34,6 @@ public class NavigateurDesVues extends Application {
         stade.setScene(this.vueListeLieu);
         stade.show();
 
-        //controleurLieu = controleurLieu.getInstance();
         controleurLieu = ControleurLieu.getInstance();
         controleurLieu.activerVues(this);
 

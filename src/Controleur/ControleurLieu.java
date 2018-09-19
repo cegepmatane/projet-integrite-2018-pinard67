@@ -125,4 +125,9 @@ public class ControleurLieu {
         this.vueListeLieu.afficherListeLieu(lieuDAO.listerLieu());
         this.navigateurDesVues.naviguerVersVueListeLieu();
     }
+
+    public void notifierNaviguerVersVueAjouterLieu() {
+        this.vueAjouterLieu.netoyerGrilleChamp();
+        this.navigateurDesVues.naviguerVersVueAjouterLieu();
+    }
 }
