@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -19,7 +20,7 @@ public class VueEditerLieu extends Scene {
     protected TextField textValeurVille;
     protected TextField textValeurTaille;
     protected TextField textValeurHabitant;
-    protected TextField textValeurEstCapital;
+    protected CheckBox textValeurEstCapital;
 
     private Button actionEnregistrerLieu;
     private Button actionNaviguerAjouterPoisson;
@@ -61,7 +62,8 @@ public class VueEditerLieu extends Scene {
         grilleLieu.add(new Label("Habitants : "), 0, 2);
         grilleLieu.add(textValeurHabitant, 1, 2);
 
-        textValeurEstCapital = new TextField(lieu.getEstCapital());
+        textValeurEstCapital = new CheckBox();
+        if (lieu.getEstCapital())textValeurEstCapital.setSelected(true);
         grilleLieu.add(new Label("Est capitale : "), 0, 3);
         grilleLieu.add(textValeurEstCapital, 1, 3);
 
@@ -84,10 +86,12 @@ public class VueEditerLieu extends Scene {
     }
 
     public Lieu demanderLieu() {
+        boolean booleanCapital = false;
+        if (this.textValeurEstCapital.getText().equals("oui"))booleanCapital=true;
         Lieu lieu = new Lieu(idLieu, this.textValeurVille.getText(),
                 Integer.parseInt(this.textValeurTaille.getText()),
                 Integer.parseInt(this.textValeurHabitant.getText()),
-                this.textValeurEstCapital.getText());
+                booleanCapital);
         return lieu;
     }
 

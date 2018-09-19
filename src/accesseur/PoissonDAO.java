@@ -121,7 +121,9 @@ public class PoissonDAO {
             int habitant = curseurPoisson.getInt("habitant");
             String estcapitale = curseurPoisson.getString("estcapitale");
             System.out.println("SQL DATA :  nom:" + ville + " taille:" + taille + " Habitants : " + habitant + " est capital : " + estcapitale);
-            Lieu lieu = new Lieu(id, ville, taille, habitant, estcapitale);
+            boolean booleanCapital = false;
+            if (estcapitale.equals("oui"))booleanCapital=true;
+            Lieu lieu = new Lieu(id, ville, taille, habitant, booleanCapital);
             return lieu;
         } catch (
                 SQLException e) {

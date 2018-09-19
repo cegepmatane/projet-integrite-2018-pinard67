@@ -5,9 +5,9 @@ public class Lieu {
     protected String ville;
     protected int taille;
     protected int habitant;
-    protected String estCapital;
+    protected boolean estCapital;
 
-    public Lieu(int id,String ville, int taille, int habitant, String estCapital) {
+    public Lieu(int id,String ville, int taille, int habitant, boolean estCapital) {
         this.ville = ville;
         this.taille = taille;
         this.habitant = habitant;
@@ -45,11 +45,11 @@ public class Lieu {
         this.habitant = habitant;
     }
 
-    public String getEstCapital() {
+    public boolean getEstCapital() {
         return estCapital;
     }
 
-    public void setEstCapital(String estCapital) {
+    public void setEstCapital(boolean estCapital) {
         this.estCapital = estCapital;
     }
 }

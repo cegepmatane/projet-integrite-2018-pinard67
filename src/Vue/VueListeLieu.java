@@ -47,7 +47,9 @@ public class VueListeLieu extends Scene {
             this.grilleLieus.add(new Label(lieu.getVille()), 0, numero);
             this.grilleLieus.add(new Label("" + lieu.getTaille()), 1, numero);
             this.grilleLieus.add(new Label("" + lieu.getHabitant()), 2, numero);
-            this.grilleLieus.add(new Label(lieu.getEstCapital()), 3, numero);
+            String stringCapital = "non";
+            if (lieu.getEstCapital()) stringCapital="oui";
+            this.grilleLieus.add(new Label(stringCapital), 3, numero);
 
             Button actionEditer = new Button("Editer");
             actionEditer.setOnAction(new EventHandler<ActionEvent>() {

@@ -1,7 +1,6 @@
 package Accesseur;
 
 import Modele.Lieu;
-import Modele.Poisson;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,10 +30,10 @@ public class LieuDAO {
     }
 
     public List<Lieu> simulelisterLieus() {
-        listeLieusTest.add(new Lieu(1, "Matane", 228, 14462, "non"));
-        listeLieusTest.add(new Lieu(2, "Quebec", 721, 8425996, "non"));
-        listeLieusTest.add(new Lieu(3, "Montréal", 431, 1741000, "non"));
-        listeLieusTest.add(new Lieu(4, "Ottawa", 2778, 947031, "oui"));
+        listeLieusTest.add(new Lieu(1, "Matane", 228, 14462, false));
+        listeLieusTest.add(new Lieu(2, "Quebec", 721, 8425996, false));
+        listeLieusTest.add(new Lieu(3, "Montréal", 431, 1741000, false));
+        listeLieusTest.add(new Lieu(4, "Ottawa", 2778, 947031, true));
 
         return listeLieusTest;
     }
@@ -54,7 +53,9 @@ public class LieuDAO {
                 int habitant = curseurListeLieu.getInt("habitant");
                 String estcapitale = curseurListeLieu.getString("estcapitale");
                 //System.out.println("SQL DATA :  nom:" + ville + " taille:" + taille + " Habitants : " + habitant + " est capital : " + estcapitale);
-                listeLieu.add(new Lieu(id, ville, taille, habitant, estcapitale));
+                boolean booleanCapital = false;
+                if (estcapitale.equals("oui")) booleanCapital = true;
+                listeLieu.add(new Lieu(id, ville, taille, habitant, booleanCapital));
             }
             System.out.println("Liste BDD a jours");
         } catch (SQLException e) {
@@ -65,8 +66,10 @@ public class LieuDAO {
 
     public void ajouterLieu(Lieu lieu) {
         Statement requeteAjouterLieu = null;
+        String stringCapital = "non";
+        if (lieu.getEstCapital())stringCapital="oui";
         try {
-            String SQL_REQUETE_INSERT = "INSERT into lieu(ville, habitant,taille,estcapitale) VALUES ('" + lieu.getVille() + "'," + lieu.getHabitant() + "," + lieu.getTaille() + ",'" + lieu.getEstCapital() + "')";
+            String SQL_REQUETE_INSERT = "INSERT into lieu(ville, habitant,taille,estcapitale) VALUES ('" + lieu.getVille() + "'," + lieu.getHabitant() + "," + lieu.getTaille() + ",'" + stringCapital + "')";
             requeteAjouterLieu = connection.createStatement();
             System.out.println("SQL : " + SQL_REQUETE_INSERT);
             requeteAjouterLieu.execute(SQL_REQUETE_INSERT);
@@ -77,8 +80,10 @@ public class LieuDAO {
 
     public void modifierLieu(Lieu lieu) {
         //List<Lieu> listeLieu = this.listerLieu();
+        String stringCapital = "non";
+        if (lieu.getEstCapital())stringCapital="oui";
 
-        String SQL_REQUETE_UPDATE = "UPDATE lieu SET ville = '" + lieu.getVille() + "', taille = " + lieu.getTaille() + ", habitant = " + lieu.getHabitant() + ", estcapitale = '" + lieu.getEstCapital() + "' WHERE id = " + lieu.getId();
+        String SQL_REQUETE_UPDATE = "UPDATE lieu SET ville = '" + lieu.getVille() + "', taille = " + lieu.getTaille() + ", habitant = " + lieu.getHabitant() + ", estcapitale = '" + stringCapital+ "' WHERE id = " + lieu.getId();
 
         System.out.println("SQL :" + SQL_REQUETE_UPDATE);
 
@@ -119,7 +124,9 @@ public class LieuDAO {
             String estcapitale = curseurLieu.getString("estcapitale");
 
             System.out.println("Lieu : " + ville + " Taille : " + taille + " Habitant : " + habitant + " Capitale : " + estcapitale);
-            Lieu lieu = new Lieu(id, ville, taille, habitant, estcapitale);
+            boolean booleanCapital = false;
+            if (estcapitale.equals("oui")) booleanCapital = true;
+            Lieu lieu = new Lieu(id, ville, taille, habitant, booleanCapital);
             return lieu;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -17,7 +18,7 @@ public class VueAjouterLieu extends Scene {
     protected TextField valeurVille;
     protected TextField valeurTaille;
     protected TextField valeurhabitants;
-    protected TextField valeurEstCapital;
+    protected CheckBox valeurEstCapital;
 
     private ControleurLieu controleurLieu;
 
@@ -42,7 +43,7 @@ public class VueAjouterLieu extends Scene {
         grilleLieu.add(new Label("Habitants : "), 0, 2);
         grilleLieu.add(valeurhabitants, 1, 2);
 
-        valeurEstCapital = new TextField();
+        valeurEstCapital = new CheckBox();
         grilleLieu.add(new Label("Est capital : "), 0, 3);
         grilleLieu.add(valeurEstCapital, 1, 3);
 
@@ -50,7 +51,7 @@ public class VueAjouterLieu extends Scene {
         actionEnregistrerLieu.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Lieu lieuAjouter = new Lieu(0,valeurVille.getText().toString(),Integer.parseInt(valeurTaille.getText()),Integer.parseInt(valeurhabitants.getText()), valeurEstCapital.getText().toString());
+                Lieu lieuAjouter = new Lieu(0,valeurVille.getText().toString(),Integer.parseInt(valeurTaille.getText()),Integer.parseInt(valeurhabitants.getText()), valeurEstCapital.isSelected());
                 System.out.println("ajout de : "+lieuAjouter.getVille());
                 controleurLieu.notifierActionAjouterLieu(lieuAjouter);
             }
