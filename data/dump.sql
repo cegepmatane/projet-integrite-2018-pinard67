@@ -44,18 +44,18 @@ DECLARE
 BEGIN
 
 	IF TG_OP = 'UPDATE' THEN
-		avant_operation:= '[' || OLD.ville || ']';
-		apres_operation:= '[' || NEW.ville || ']';
+		avant_operation:= '[ Ville : ' || OLD.ville || ' ]' || '[ Taille : ' || OLD.taille || ' ]' || '[ Habitants : ' || OLD.habitant || ' ]' || '[ EstCapitale : ' || OLD.estcapitale || ' ]';
+		apres_operation:= '[ Ville : ' || NEW.ville || ' ]' || '[ Taille : ' || NEW.taille || ' ]' || '[ Habitants : ' || NEW.habitant || ' ]' || '[ EstCapitale : ' || NEW.estcapitale || ' ]';
 		operation:= 'UPDATE';
 	END IF;
 	
 	IF TG_OP = 'INSERT' THEN
-		apres_operation:= '[' || NEW.ville || ']';
+		apres_operation:= '[ Ville : ' || NEW.ville || ' ]' || '[ Taille : ' || NEW.taille || ' ]' || '[ Habitants : ' || NEW.habitant || ' ]' || '[ EstCapitale : ' || NEW.estcapitale || ' ]';
 		operation:= 'INSERT';
 	END IF;
 	
 	IF TG_OP = 'DELETE' THEN
-		avant_operation:= '[' || OLD.ville || ']';
+		avant_operation:= '[ Ville : ' || OLD.ville || ' ]' || '[ Taille : ' || OLD.taille || ' ]' || '[ Habitants : ' || OLD.habitant || ' ]' || '[ EstCapitale : ' || OLD.estcapitale || ' ]';
 		operation:= 'DELETE';
 	END IF;
 	
@@ -67,6 +67,7 @@ BEGIN
 	
 	RETURN new;
 END
+
 $$;
 
 
@@ -251,6 +252,10 @@ COPY public.journal (id, date, operation, avant_operation, apres_operation, obje
 35	2018-09-20 13:05:48.962491-04	DELETE	[aeaeraefq]	\N	lieu
 36	2018-09-20 13:05:49.865752-04	DELETE	[eee]	\N	lieu
 37	2018-09-20 13:05:54.634289-04	UPDATE	[coucou]	[salut]	lieu
+38	2018-09-20 19:30:43.395288-04	UPDATE	[ Ville : Otawa ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]	[oh ta wahh]	lieu
+39	2018-09-20 19:34:07.348468-04	UPDATE	[ Ville : oh ta wahh ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]	[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]	lieu
+40	2018-09-20 19:34:24.345947-04	DELETE	[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]	\N	lieu
+41	2018-09-20 19:34:37.223331-04	INSERT	\N	[ Ville : Ottawa ][ Taille : 123 ][ Habitants : 456 ][ EstCapitale : oui ]	lieu
 \.
 
 
@@ -259,12 +264,12 @@ COPY public.journal (id, date, operation, avant_operation, apres_operation, obje
 --
 
 COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
-12	Otawa	12432	123345	non
 15	hagenau	123	12	oui
 25	hagenau	123	12	oui
 14	sertyu	123	12	non
 2	Matano	228	143420000	non
 27	salut	1414	314	non
+29	Ottawa	123	456	oui
 \.
 
 
@@ -282,14 +287,14 @@ COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
 -- Name: journal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.journal_id_seq', 37, true);
+SELECT pg_catalog.setval('public.journal_id_seq', 41, true);
 
 
 --
 -- Name: lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lieu_id_seq', 28, true);
+SELECT pg_catalog.setval('public.lieu_id_seq', 29, true);
 
 
 --
