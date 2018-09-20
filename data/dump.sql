@@ -59,8 +59,12 @@ BEGIN
 		operation:= 'DELETE';
 	END IF;
 	
-	--apres_operation:='[' || new.ville || '] [' || new.taille || '] [' || new.habitant || '] [' || new.estcapitale ']';
 	INSERT into journal(date, operation,objet,avant_operation,apres_operation) VALUES(NOW(), operation, 'lieu' ,avant_operation,apres_operation);
+	
+	IF TG_OP = 'DELETE' THEN
+		return old;
+	end if;
+	
 	RETURN new;
 END
 $$;
@@ -224,6 +228,29 @@ COPY public.journal (id, date, operation, avant_operation, apres_operation, obje
 12	2018-09-20 11:42:09.395969-04	INSERT	\N	[zf]	lieu
 13	2018-09-20 11:43:16.695961-04	UPDATE	[zf]	[aefr]	lieu
 14	2018-09-20 11:43:25.89467-04	INSERT	\N	[aze]	lieu
+15	2018-09-20 11:49:46.855563-04	DELETE	[aeaeraefq]	\N	lieu
+16	2018-09-20 11:49:47.414156-04	DELETE	[aeaeraefq]	\N	lieu
+17	2018-09-20 11:49:48.321552-04	DELETE	[aeaeraefq]	\N	lieu
+18	2018-09-20 11:49:48.636144-04	DELETE	[aeaeraefq]	\N	lieu
+19	2018-09-20 11:49:49.125091-04	DELETE	[aeaeraefq]	\N	lieu
+20	2018-09-20 11:49:58.493421-04	DELETE	[aefr]	\N	lieu
+21	2018-09-20 11:50:03.692587-04	DELETE	[aefr]	\N	lieu
+22	2018-09-20 11:50:04.442113-04	DELETE	[aefr]	\N	lieu
+23	2018-09-20 11:50:04.753941-04	DELETE	[aefr]	\N	lieu
+24	2018-09-20 11:50:05.083098-04	DELETE	[aefr]	\N	lieu
+25	2018-09-20 11:50:05.229317-04	DELETE	[aefr]	\N	lieu
+26	2018-09-20 11:50:05.403971-04	DELETE	[aefr]	\N	lieu
+27	2018-09-20 11:50:05.563667-04	DELETE	[aefr]	\N	lieu
+28	2018-09-20 11:50:05.72575-04	DELETE	[aefr]	\N	lieu
+29	2018-09-20 11:50:05.889736-04	DELETE	[aefr]	\N	lieu
+30	2018-09-20 11:50:06.301859-04	DELETE	[aefr]	\N	lieu
+31	2018-09-20 11:50:55.946831-04	DELETE	[aeaeraefq]	\N	lieu
+32	2018-09-20 11:51:06.540734-04	UPDATE	[Baie-Comeau]	[zz]	lieu
+33	2018-09-20 11:51:23.99889-04	DELETE	[aefr]	\N	lieu
+34	2018-09-20 11:51:35.575475-04	UPDATE	[Quebec]	[Quebec123]	lieu
+35	2018-09-20 13:05:48.962491-04	DELETE	[aeaeraefq]	\N	lieu
+36	2018-09-20 13:05:49.865752-04	DELETE	[eee]	\N	lieu
+37	2018-09-20 13:05:54.634289-04	UPDATE	[coucou]	[salut]	lieu
 \.
 
 
@@ -232,17 +259,12 @@ COPY public.journal (id, date, operation, avant_operation, apres_operation, obje
 --
 
 COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
-6	Baie-Comeau	45	8234	non
-1	Quebec	1546056	14323000	non
 12	Otawa	12432	123345	non
 15	hagenau	123	12	oui
 25	hagenau	123	12	oui
 14	sertyu	123	12	non
 2	Matano	228	143420000	non
-7	eee	1234	60532	non
-26	aeaeraefq	1	2	non
-27	aefr	1	3	non
-28	aze	12	44	non
+27	salut	1414	314	non
 \.
 
 
@@ -251,14 +273,8 @@ COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
 --
 
 COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
-1	saumon	salmonidée	47	453	1
-2	truite	salmonidée	27	214	1
 3	brochet	Esox Lucuis	86	4521	2
 5	silure	siluridé	156	6542	2
-13	Musky	Esox Lucius	123	6983	6
-15	Perche	percide	12	13	7
-16	brohet	esox lucius	87	5532	7
-17	azer	AZERT	12123	55	7
 \.
 
 
@@ -266,7 +282,7 @@ COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
 -- Name: journal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.journal_id_seq', 14, true);
+SELECT pg_catalog.setval('public.journal_id_seq', 37, true);
 
 
 --
