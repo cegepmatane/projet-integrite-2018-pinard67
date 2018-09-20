@@ -8,26 +8,18 @@ import java.util.List;
 
 public class LieuDAO {
     private Connection connection = null;
-    private List listeLieusTest = new ArrayList<Lieu>();
+    //private List listeLieusTest = new ArrayList<Lieu>();
 
     public LieuDAO() {
         connection = BaseDeDonnee.getInstance().getConnection();
     }
 
-    public List<Lieu> simulelisterLieus() {
-        listeLieusTest.add(new Lieu(1, "Matane", 228, 14462, false));
-        listeLieusTest.add(new Lieu(2, "Quebec", 721, 8425996, false));
-        listeLieusTest.add(new Lieu(3, "Montréal", 431, 1741000, false));
-        listeLieusTest.add(new Lieu(4, "Ottawa", 2778, 947031, true));
-
-        return listeLieusTest;
-    }
-
     public List<Lieu> listerLieu() {
         List<Lieu> listeLieu = new ArrayList<>();
         try {
+            String SQL_LISTER_LIEU = "SELECT * FROM lieu";
             Statement requeteListeLieu = connection.createStatement();
-            ResultSet curseurListeLieu = requeteListeLieu.executeQuery("SELECT * FROM lieu");
+            ResultSet curseurListeLieu = requeteListeLieu.executeQuery(SQL_LISTER_LIEU);
 
             while (curseurListeLieu.next()) {
                 int id = curseurListeLieu.getInt("id");
@@ -116,4 +108,13 @@ public class LieuDAO {
         }
         return null;
     }
+
+    /*public List<Lieu> simulelisterLieus() {
+        listeLieusTest.add(new Lieu(1, "Matane", 228, 14462, false));
+        listeLieusTest.add(new Lieu(2, "Quebec", 721, 8425996, false));
+        listeLieusTest.add(new Lieu(3, "Montréal", 431, 1741000, false));
+        listeLieusTest.add(new Lieu(4, "Ottawa", 2778, 947031, true));
+
+        return listeLieusTest;
+    }*/
 }

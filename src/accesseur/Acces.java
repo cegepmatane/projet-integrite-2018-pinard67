@@ -1,4 +1,4 @@
-package accesseur;
+package Accesseur;
 
 public interface Acces {
     static final String BASEDEDONNEES_DRIVER = "org.postgresql.Driver";
