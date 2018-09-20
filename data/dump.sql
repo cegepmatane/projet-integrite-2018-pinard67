@@ -33,11 +33,12 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 -- Name: journaliser(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.journaliser() RETURNS void
+CREATE FUNCTION public.journaliser() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-INSERT into journal(date, operation,objet,avant_operation,apres_operation) VALUES(NOW(), 'ajouter','objet','poisson1','poisson2');
+	INSERT into journal(date, operation,objet,avant_operation,apres_operation) VALUES(NOW(), 'ajouter','objet','poisson1','poisson2');
+	RETURN NEW;
 END
 $$;
 
@@ -188,6 +189,7 @@ ALTER TABLE ONLY public.poisson ALTER COLUMN id SET DEFAULT nextval('public.pois
 
 COPY public.journal (id, date, operation, avant_operation, apres_operation, objet) FROM stdin;
 1	2018-09-20 10:31:39.765147-04	ajouter	poisson1	poisson2	objet
+3	2018-09-20 11:00:01.255973-04	ajouter	poisson1	poisson2	objet
 \.
 
 
@@ -201,6 +203,7 @@ COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
 2	Matane	228	143420000	non
 1	Quebec	1546056	14323000	non
 12	Otawa	12432	123345	non
+14	hagenau	123	12	oui
 \.
 
 
@@ -224,14 +227,14 @@ COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
 -- Name: journal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.journal_id_seq', 1, true);
+SELECT pg_catalog.setval('public.journal_id_seq', 3, true);
 
 
 --
 -- Name: lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lieu_id_seq', 12, true);
+SELECT pg_catalog.setval('public.lieu_id_seq', 14, true);
 
 
 --
@@ -270,6 +273,13 @@ ALTER TABLE ONLY public.poisson
 --
 
 CREATE INDEX fki_fk_id_lieu ON public.poisson USING btree (id_lieu);
+
+
+--
+-- Name: lieu evenementajoutlieu; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER evenementajoutlieu BEFORE INSERT ON public.lieu FOR EACH ROW EXECUTE PROCEDURE public.journaliser();
 
 
 --
