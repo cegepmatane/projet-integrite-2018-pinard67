@@ -36,9 +36,32 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 CREATE FUNCTION public.journaliser() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
+
+DECLARE
+	avant_operation text;
+	apres_operation text;
+	operation text;
 BEGIN
-	INSERT into journal(date, operation,objet,avant_operation,apres_operation) VALUES(NOW(), 'ajouter','objet','poisson1','poisson2');
-	RETURN NEW;
+
+	IF TG_OP = 'UPDATE' THEN
+		avant_operation:= '[' || OLD.ville || ']';
+		apres_operation:= '[' || NEW.ville || ']';
+		operation:= 'UPDATE';
+	END IF;
+	
+	IF TG_OP = 'INSERT' THEN
+		apres_operation:= '[' || NEW.ville || ']';
+		operation:= 'INSERT';
+	END IF;
+	
+	IF TG_OP = 'DELETE' THEN
+		avant_operation:= '[' || OLD.ville || ']';
+		operation:= 'DELETE';
+	END IF;
+	
+	--apres_operation:='[' || new.ville || '] [' || new.taille || '] [' || new.habitant || '] [' || new.estcapitale ']';
+	INSERT into journal(date, operation,objet,avant_operation,apres_operation) VALUES(NOW(), operation, 'lieu' ,avant_operation,apres_operation);
+	RETURN new;
 END
 $$;
 
@@ -190,6 +213,17 @@ ALTER TABLE ONLY public.poisson ALTER COLUMN id SET DEFAULT nextval('public.pois
 COPY public.journal (id, date, operation, avant_operation, apres_operation, objet) FROM stdin;
 1	2018-09-20 10:31:39.765147-04	ajouter	poisson1	poisson2	objet
 3	2018-09-20 11:00:01.255973-04	ajouter	poisson1	poisson2	objet
+4	2018-09-20 11:05:44.231756-04	ajouter	[hagenau]	poisson2	objet
+5	2018-09-20 11:37:06.423827-04	ajouter	\N	[hagenau]	objet
+6	2018-09-20 11:37:06.423827-04	ajouter	\N	[hagenau]	objet
+7	2018-09-20 11:40:13.855614-04	INSERT	\N	[uu]	lieu
+8	2018-09-20 11:40:13.855614-04	INSERT	\N	[uu]	lieu
+9	2018-09-20 11:41:52.152181-04	UPDATE	[uu]	[aeaeraefq]	lieu
+10	2018-09-20 11:42:09.395969-04	INSERT	\N	[zf]	lieu
+11	2018-09-20 11:42:09.395969-04	INSERT	\N	[zf]	lieu
+12	2018-09-20 11:42:09.395969-04	INSERT	\N	[zf]	lieu
+13	2018-09-20 11:43:16.695961-04	UPDATE	[zf]	[aefr]	lieu
+14	2018-09-20 11:43:25.89467-04	INSERT	\N	[aze]	lieu
 \.
 
 
@@ -198,12 +232,17 @@ COPY public.journal (id, date, operation, avant_operation, apres_operation, obje
 --
 
 COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
-7	Haguenau	1234	60532	non
 6	Baie-Comeau	45	8234	non
-2	Matane	228	143420000	non
 1	Quebec	1546056	14323000	non
 12	Otawa	12432	123345	non
-14	hagenau	123	12	oui
+15	hagenau	123	12	oui
+25	hagenau	123	12	oui
+14	sertyu	123	12	non
+2	Matano	228	143420000	non
+7	eee	1234	60532	non
+26	aeaeraefq	1	2	non
+27	aefr	1	3	non
+28	aze	12	44	non
 \.
 
 
@@ -227,14 +266,14 @@ COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
 -- Name: journal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.journal_id_seq', 3, true);
+SELECT pg_catalog.setval('public.journal_id_seq', 14, true);
 
 
 --
 -- Name: lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lieu_id_seq', 14, true);
+SELECT pg_catalog.setval('public.lieu_id_seq', 28, true);
 
 
 --
@@ -276,10 +315,10 @@ CREATE INDEX fki_fk_id_lieu ON public.poisson USING btree (id_lieu);
 
 
 --
--- Name: lieu evenementajoutlieu; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: lieu evenementlieu; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER evenementajoutlieu BEFORE INSERT ON public.lieu FOR EACH ROW EXECUTE PROCEDURE public.journaliser();
+CREATE TRIGGER evenementlieu BEFORE INSERT OR DELETE OR UPDATE ON public.lieu FOR EACH ROW EXECUTE PROCEDURE public.journaliser();
 
 
 --
