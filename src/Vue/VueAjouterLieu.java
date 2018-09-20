@@ -1,10 +1,9 @@
 package Vue;
 
-import Controleur.ControleurLieu;
+import Controleur.Controleur;
 import Modele.Lieu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -20,7 +19,7 @@ public class VueAjouterLieu extends Scene {
     protected TextField valeurhabitants;
     protected CheckBox valeurEstCapital;
 
-    private ControleurLieu controleurLieu;
+    private Controleur controleur;
 
     private Button actionEnregistrerLieu;
 
@@ -29,7 +28,7 @@ public class VueAjouterLieu extends Scene {
         VBox panneau = (VBox) this.getRoot();
         GridPane grilleLieu = new GridPane();
 
-        controleurLieu = ControleurLieu.getInstance();
+        controleur = Controleur.getInstance();
 
         valeurVille = new TextField();
         grilleLieu.add(new Label("Nom : "), 0, 0);
@@ -53,7 +52,7 @@ public class VueAjouterLieu extends Scene {
             public void handle(ActionEvent event) {
                 Lieu lieuAjouter = new Lieu(0,valeurVille.getText().toString(),Integer.parseInt(valeurTaille.getText()),Integer.parseInt(valeurhabitants.getText()), valeurEstCapital.isSelected());
                 System.out.println("ajout de : "+lieuAjouter.getVille());
-                controleurLieu.notifierActionAjouterLieu(lieuAjouter);
+                controleur.notifierActionAjouterLieu(lieuAjouter);
             }
         });
 

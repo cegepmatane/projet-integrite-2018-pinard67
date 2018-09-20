@@ -12,24 +12,10 @@ public class PoissonDAO {
 
     List<Poisson> listePoissonTeste = new ArrayList<>();
 
-    private static String BASEDEDONNEES_DRIVER = "org.postgresql.Driver";
-    private static String BASEDEDONNEES_URL = "jdbc:postgresql://localhost:5432/lieuPeche";
-    private static String BASEDEDONNEES_USAGER = "postgres";
-    private static String BASEDEDONNEES_MOTDEPASSE = "postgres";
-
     private Connection connection = null;
 
     public PoissonDAO() {
-        try {
-            Class.forName(BASEDEDONNEES_DRIVER);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = BaseDeDonnee.getInstance().getConnection();
     }
 
     public List<Poisson> simulelisterLieus() {
@@ -44,8 +30,6 @@ public class PoissonDAO {
     public List<Poisson> listerPoisson(int id_lieu) {
         List<Poisson> listePoisson = new ArrayList<>();
         try {
-            Connection connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
-
             Statement requeteListePoisson = connection.createStatement();
             ResultSet curseurListePoisson = requeteListePoisson.executeQuery("SELECT * FROM poisson WHERE id_lieu = " + id_lieu);
 

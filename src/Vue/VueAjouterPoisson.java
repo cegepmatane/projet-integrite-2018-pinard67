@@ -1,6 +1,6 @@
 package Vue;
 
-import Controleur.ControleurLieu;
+import Controleur.Controleur;
 import Modele.Lieu;
 import Modele.Poisson;
 import javafx.event.ActionEvent;
@@ -19,7 +19,7 @@ public class VueAjouterPoisson extends Scene {
     protected TextField texteValeurTaille;
     protected TextField texteValeurPoids;
 
-    private ControleurLieu controleurLieu;
+    private Controleur controleur;
     private Pane panneau;
     private GridPane grillePoisson;
     private GridPane grillePrincipale;
@@ -34,7 +34,7 @@ public class VueAjouterPoisson extends Scene {
         grillePrincipale = new GridPane();
 
 
-        controleurLieu = ControleurLieu.getInstance();
+        controleur = Controleur.getInstance();
     }
 
     public void updateVueCelonLieu(Lieu lieu) {
@@ -64,7 +64,7 @@ public class VueAjouterPoisson extends Scene {
         actionAjouterPoisson.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controleurLieu.notifierActionAjouterPoisson();
+                controleur.notifierActionAjouterPoisson();
             }
         });
 

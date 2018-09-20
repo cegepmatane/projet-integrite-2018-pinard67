@@ -1,6 +1,6 @@
 package Vue;
 
-import Controleur.ControleurLieu;
+import Controleur.Controleur;
 import Modele.Lieu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +17,7 @@ public class VueListeLieu extends Scene {
     private GridPane grilleLieus;
     private GridPane grillePrincipale;
     private Pane panneau;
-    private ControleurLieu controleurLieu = null;
+    private Controleur controleur = null;
 
     private Button actionNaviguerAjouterLieu;
 
@@ -26,7 +26,7 @@ public class VueListeLieu extends Scene {
         panneau = (Pane) this.getRoot();
         grilleLieus = new GridPane();
         grillePrincipale = new GridPane();
-        controleurLieu = ControleurLieu.getInstance();
+        controleur = Controleur.getInstance();
         panneau.getChildren().add(grillePrincipale);
     }
 
@@ -55,7 +55,7 @@ public class VueListeLieu extends Scene {
             actionEditer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    controleurLieu.notifierActionNaviguerEditerLieu(lieu.getId());
+                    controleur.notifierActionNaviguerEditerLieu(lieu.getId());
                     System.out.println("Notifier navigation modifier");
                 }
             });
@@ -65,7 +65,7 @@ public class VueListeLieu extends Scene {
             actionSupprimerLieu.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    controleurLieu.notifierActionSupprimerLieu(lieu.getId());
+                    controleur.notifierActionSupprimerLieu(lieu.getId());
                     System.out.println("Notifier action Supprimer Lieu");
                 }
             });
@@ -79,7 +79,7 @@ public class VueListeLieu extends Scene {
         actionNaviguerAjouterLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controleurLieu.notifierNaviguerVersVueAjouterLieu();
+                controleur.notifierNaviguerVersVueAjouterLieu();
             }
         });
     }

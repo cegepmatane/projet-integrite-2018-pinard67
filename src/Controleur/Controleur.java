@@ -8,7 +8,7 @@ import Accesseur.LieuDAO;
 
 import java.util.List;
 
-public class ControleurLieu {
+public class Controleur {
 
     private NavigateurDesVues navigateurDesVues;
 
@@ -22,13 +22,13 @@ public class ControleurLieu {
     private LieuDAO lieuDAO = new LieuDAO();
     private PoissonDAO poissonDAO = new PoissonDAO();
 
-    private ControleurLieu() {}
+    private Controleur() {}
 
-    private static ControleurLieu instance = null; //null est important
+    private static Controleur instance = null; //null est important
 
-    public static ControleurLieu getInstance() {
+    public static Controleur getInstance() {
         if (null == instance) {
-            instance = new ControleurLieu();
+            instance = new Controleur();
         }
         return instance;
     }

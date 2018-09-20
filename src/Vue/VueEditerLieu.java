@@ -1,6 +1,6 @@
 package Vue;
 
-import Controleur.ControleurLieu;
+import Controleur.Controleur;
 import Modele.Lieu;
 import Modele.Poisson;
 import javafx.event.ActionEvent;
@@ -29,7 +29,7 @@ public class VueEditerLieu extends Scene {
     private GridPane grillePrincipal;
     private Pane panneau;
 
-    private ControleurLieu controleurLieu;
+    private Controleur controleur;
 
     private int idLieu = 0;
 
@@ -40,7 +40,7 @@ public class VueEditerLieu extends Scene {
         grillePoissons = new GridPane();
         grillePrincipal = new GridPane();
 
-        controleurLieu = ControleurLieu.getInstance();
+        controleur = Controleur.getInstance();
     }
 
     public void updateVueEditerLieu(Lieu lieu) {
@@ -71,15 +71,15 @@ public class VueEditerLieu extends Scene {
         actionEnregistrerLieu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controleurLieu.notifierActionEnregistrerLieu();
-                controleurLieu.getNavigateurDesVues().naviguerVersVueListeLieu();
+                controleur.notifierActionEnregistrerLieu();
+                controleur.getNavigateurDesVues().naviguerVersVueListeLieu();
             }
         });
 
 
         this.grillePrincipal.add(grilleLieu, 0, 1);
         this.grillePrincipal.add(new Label("\n\t Liste des poissons a : " + textValeurVille.getText() + "\n"), 0, 2);
-        this.grillePrincipal.add(grillePoison(controleurLieu.notifierListePoissonCelonLieu(lieu)), 0, 3);
+        this.grillePrincipal.add(grillePoison(controleur.notifierListePoissonCelonLieu(lieu)), 0, 3);
         this.grillePrincipal.add(new Label(), 0, 4);
         this.grillePrincipal.add(actionEnregistrerLieu, 0, 5);
         this.panneau.getChildren().add(grillePrincipal);
@@ -119,7 +119,7 @@ public class VueEditerLieu extends Scene {
                 @Override
                 public void handle(ActionEvent event) {
                     System.out.println("Notifier navigation modifier poisson : " + poisson.getNom());
-                    controleurLieu.notifierActionNaviguerEditerPoisson(poisson.getId());
+                    controleur.notifierActionNaviguerEditerPoisson(poisson.getId());
                 }
             });
             this.grillePoissons.add(actionEditer, 4, numero);
@@ -129,7 +129,7 @@ public class VueEditerLieu extends Scene {
                 @Override
                 public void handle(ActionEvent event) {
                     System.out.println("Notifier suppression poisson : " + poisson.getNom());
-                    controleurLieu.notifierActionSupprimerPoisson(poisson.getId(),idLieu);
+                    controleur.notifierActionSupprimerPoisson(poisson.getId(),idLieu);
                 }
             });
 
@@ -144,7 +144,7 @@ public class VueEditerLieu extends Scene {
         actionNaviguerAjouterPoisson.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controleurLieu.notifierActionNaviguerAjouterPoisson(idLieu);
+                controleur.notifierActionNaviguerAjouterPoisson(idLieu);
             }
         });
 

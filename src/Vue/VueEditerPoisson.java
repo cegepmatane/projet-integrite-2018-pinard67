@@ -1,11 +1,9 @@
 package Vue;
 
-import Controleur.ControleurLieu;
-import Modele.Lieu;
+import Controleur.Controleur;
 import Modele.Poisson;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,7 +13,7 @@ import javafx.scene.layout.Pane;
 
 public class VueEditerPoisson extends Scene {
 
-    ControleurLieu controleurLieu;
+    Controleur controleur;
     Pane panneau;
     GridPane grillePoissonEditer;
 
@@ -33,7 +31,7 @@ public class VueEditerPoisson extends Scene {
 
         grillePoissonEditer = new GridPane();
 
-        controleurLieu = ControleurLieu.getInstance();
+        controleur = Controleur.getInstance();
     }
 
     public void updateVueEditerPoisson(Poisson poisson) {
@@ -62,7 +60,7 @@ public class VueEditerPoisson extends Scene {
         actionEnregistrerPoisson.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controleurLieu.notifierActionEnregistrerPoisson();
+                controleur.notifierActionEnregistrerPoisson();
             }
         });
 

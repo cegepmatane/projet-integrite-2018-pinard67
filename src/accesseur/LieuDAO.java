@@ -7,26 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LieuDAO {
+    private Connection connection = null;
     private List listeLieusTest = new ArrayList<Lieu>();
 
-    private static String BASEDEDONNEES_DRIVER = "org.postgresql.Driver";
-    private static String BASEDEDONNEES_URL = "jdbc:postgresql://localhost:5432/lieuPeche";
-    private static String BASEDEDONNEES_USAGER = "postgres";
-    private static String BASEDEDONNEES_MOTDEPASSE = "postgres";
-
-    private Connection connection = null;
-
     public LieuDAO() {
-        try {
-            Class.forName(BASEDEDONNEES_DRIVER);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = BaseDeDonnee.getInstance().getConnection();
     }
 
     public List<Lieu> simulelisterLieus() {
@@ -41,8 +26,6 @@ public class LieuDAO {
     public List<Lieu> listerLieu() {
         List<Lieu> listeLieu = new ArrayList<>();
         try {
-            Connection connection = DriverManager.getConnection(BASEDEDONNEES_URL, BASEDEDONNEES_USAGER, BASEDEDONNEES_MOTDEPASSE);
-
             Statement requeteListeLieu = connection.createStatement();
             ResultSet curseurListeLieu = requeteListeLieu.executeQuery("SELECT * FROM lieu");
 

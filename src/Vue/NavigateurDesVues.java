@@ -1,6 +1,6 @@
 package Vue;
 
-import Controleur.ControleurLieu;
+import Controleur.Controleur;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,7 +13,7 @@ public class NavigateurDesVues extends Application {
     private VueAjouterPoisson vueAjouterPoisson;
     private VueLieu vueLieu;
 
-    private ControleurLieu controleurLieu;
+    private Controleur controleur;
 
     public NavigateurDesVues() {
         this.vueAjouterLieu = new VueAjouterLieu();
@@ -34,11 +34,14 @@ public class NavigateurDesVues extends Application {
         stade.setScene(this.vueListeLieu);
         stade.show();
 
-        controleurLieu = ControleurLieu.getInstance();
-        controleurLieu.activerVues(this);
+        controleur = Controleur.getInstance();
+        controleur.activerVues(this);
 
-        this.naviguerVersVueAjouterLieu();
-        this.naviguerVersVueLieu();
+        //TEST
+       /* this.naviguerVersVueAjouterLieu();
+        this.naviguerVersVueLieu();*/
+
+       //ACEUILL
         this.naviguerVersVueListeLieu();
     }
 
