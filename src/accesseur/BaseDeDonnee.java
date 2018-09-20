@@ -1,23 +1,15 @@
 package Accesseur;
 
+import accesseur.Acces;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class BaseDeDonnee {
-
-    private static String BASEDEDONNEES_DRIVER;
-    private static String BASEDEDONNEES_URL;
-    private static String BASEDEDONNEES_USAGER;
-    private static String BASEDEDONNEES_MOTDEPASSE;
-
+public class BaseDeDonnee implements Acces {
     private Connection connection = null;
 
     private BaseDeDonnee() {
-        this.BASEDEDONNEES_DRIVER = "org.postgresql.Driver";
-        this.BASEDEDONNEES_URL = "jdbc:postgresql://localhost:5432/lieuPeche";
-        this.BASEDEDONNEES_USAGER = "postgres";
-        this.BASEDEDONNEES_MOTDEPASSE = "postgres";
 
         try {
             Class.forName(BASEDEDONNEES_DRIVER);

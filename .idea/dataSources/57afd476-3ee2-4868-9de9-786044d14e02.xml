@@ -82,8 +82,8 @@
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-09-20.10:40:46.645</IntrospectionTimestamp>
-      <IntrospectionStateNumber>747</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-09-20.11:38:40.106</IntrospectionTimestamp>
+      <IntrospectionStateNumber>777</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -164,7 +164,7 @@
     <table id="27" parent="16" name="lieu">
       <ObjectId>16480</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>634</StateNumber>
+      <StateNumber>772</StateNumber>
     </table>
     <table id="28" parent="16" name="poisson">
       <ObjectId>16491</ObjectId>
@@ -172,12 +172,12 @@
       <StateNumber>634</StateNumber>
     </table>
     <routine id="29" parent="16" name="journaliser">
-      <ObjectId>32879</ObjectId>
+      <ObjectId>32881</ObjectId>
       <Owner>postgres</Owner>
-      <SourceTextLength>142</SourceTextLength>
-      <StateNumber>747</StateNumber>
+      <SourceTextLength>720</SourceTextLength>
+      <StateNumber>777</StateNumber>
       <VolatilityKind>volatile</VolatilityKind>
-      <ResultsDefinition>void</ResultsDefinition>
+      <ResultsDefinition>trigger</ResultsDefinition>
       <LanguageName>plpgsql</LanguageName>
       <RoutineKind>function</RoutineKind>
       <Cost>100.0</Cost>
@@ -279,7 +279,23 @@
       <UnderlyingIndexName>lieu_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="45" parent="28" name="id">
+    <trigger id="45" parent="27" name="evenementajoutlieu">
+      <ObjectId>32886</ObjectId>
+      <StateNumber>772</StateNumber>
+      <Turn>before-row</Turn>
+      <Events>I</Events>
+      <FireMode>origin</FireMode>
+      <CallRoutineId>32881</CallRoutineId>
+    </trigger>
+    <trigger id="46" parent="27" name="evenementmodifiermouton">
+      <ObjectId>32887</ObjectId>
+      <StateNumber>772</StateNumber>
+      <Turn>after-row</Turn>
+      <Events>I</Events>
+      <FireMode>origin</FireMode>
+      <CallRoutineId>32881</CallRoutineId>
+    </trigger>
+    <column id="47" parent="28" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -288,52 +304,52 @@
       <TypeId>23</TypeId>
       <SequenceName>poisson_id_seq</SequenceName>
     </column>
-    <column id="46" parent="28" name="nom">
+    <column id="48" parent="28" name="nom">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="47" parent="28" name="famille">
+    <column id="49" parent="28" name="famille">
       <Position>3</Position>
       <DataType>text|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="48" parent="28" name="taille">
+    <column id="50" parent="28" name="taille">
       <Position>4</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="49" parent="28" name="poids">
+    <column id="51" parent="28" name="poids">
       <Position>5</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="50" parent="28" name="id_lieu">
+    <column id="52" parent="28" name="id_lieu">
       <Position>6</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <index id="51" parent="28" name="poisson_pkey">
+    <index id="53" parent="28" name="poisson_pkey">
       <ObjectId>16498</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="52" parent="28" name="fki_fk_id_lieu">
+    <index id="54" parent="28" name="fki_fk_id_lieu">
       <ObjectId>24636</ObjectId>
       <ColNames>id_lieu</ColNames>
     </index>
-    <key id="53" parent="28" name="poisson_pkey">
+    <key id="55" parent="28" name="poisson_pkey">
       <ObjectId>16499</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>poisson_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="54" parent="28" name="fk_id_lieu">
+    <foreign-key id="56" parent="28" name="fk_id_lieu">
       <ObjectId>24631</ObjectId>
       <ColNames>id_lieu</ColNames>
       <RefTableId>16480</RefTableId>
@@ -344,9 +360,9 @@
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <argument id="55" parent="29">
+    <argument id="57" parent="29">
       <ArgumentDirection>R</ArgumentDirection>
-      <DataType>void|0s</DataType>
+      <DataType>trigger|0s</DataType>
     </argument>
   </database-model>
 </dataSource>
