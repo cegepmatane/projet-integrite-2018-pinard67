@@ -40,14 +40,20 @@ public class LieuDAO {
     }
 
     public void ajouterLieu(Lieu lieu) {
-        Statement requeteAjouterLieu = null;
+        PreparedStatement requetePreparereAjouterLieu = null;
         String stringCapital = "non";
-        if (lieu.getEstCapital())stringCapital="oui";
+        if (lieu.getEstCapital()) stringCapital = "oui";
         try {
-            String SQL_REQUETE_INSERT = "INSERT into lieu(ville, habitant,taille,estcapitale) VALUES ('" + lieu.getVille() + "'," + lieu.getHabitant() + "," + lieu.getTaille() + ",'" + stringCapital + "')";
-            requeteAjouterLieu = connection.createStatement();
-            System.out.println("SQL : " + SQL_REQUETE_INSERT);
-            requeteAjouterLieu.execute(SQL_REQUETE_INSERT);
+            String SQL_PREPARER_REQUETE_INSERT = "INSERT into lieu(ville, habitant,taille,estcapitale) VALUES (?,?,?,?)";
+            requetePreparereAjouterLieu = connection.prepareStatement(SQL_PREPARER_REQUETE_INSERT);
+
+            requetePreparereAjouterLieu.setString(1, lieu.getVille());
+            requetePreparereAjouterLieu.setInt(3, lieu.getHabitant());
+            requetePreparereAjouterLieu.setInt(2, lieu.getTaille());
+            requetePreparereAjouterLieu.setString(4, stringCapital);
+
+            System.out.println("SQL : " + SQL_PREPARER_REQUETE_INSERT);
+            requetePreparereAjouterLieu.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,40 +62,49 @@ public class LieuDAO {
     public void modifierLieu(Lieu lieu) {
         //List<Lieu> listeLieu = this.listerLieu();
         String stringCapital = "non";
-        if (lieu.getEstCapital())stringCapital="oui";
+        if (lieu.getEstCapital()) stringCapital = "oui";
+        String SQL_REQUETE_PREPARE_UPDATE_LIEU = "UPDATE lieu SET ville = ?, taille = ?, habitant = ?, estcapitale = ? WHERE id = ?";
 
-        String SQL_REQUETE_UPDATE = "UPDATE lieu SET ville = '" + lieu.getVille() + "', taille = " + lieu.getTaille() + ", habitant = " + lieu.getHabitant() + ", estcapitale = '" + stringCapital+ "' WHERE id = " + lieu.getId();
-
-        System.out.println("SQL :" + SQL_REQUETE_UPDATE);
+        System.out.println("SQL PREPARER :" + SQL_REQUETE_PREPARE_UPDATE_LIEU);
 
         //this.listerLieu().set(i, lieu);
-        Statement requeteModifierLieu = null;
+        PreparedStatement requetePreparerModifierLieu = null;
         try {
-            requeteModifierLieu = connection.createStatement();
-            requeteModifierLieu.execute(SQL_REQUETE_UPDATE);
+            requetePreparerModifierLieu = connection.prepareStatement(SQL_REQUETE_PREPARE_UPDATE_LIEU);
+
+            requetePreparerModifierLieu.setString(1, lieu.getVille());
+            requetePreparerModifierLieu.setInt(2, lieu.getTaille());
+            requetePreparerModifierLieu.setInt(3, lieu.getHabitant());
+            requetePreparerModifierLieu.setString(4, stringCapital);
+            requetePreparerModifierLieu.setInt(5, lieu.getId());
+
+            requetePreparerModifierLieu.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void supprimerLieu(int idLieu) {
-        Statement requeteSupprimerLieu;
+        PreparedStatement requetePreparerSupprimerLieu;
         try {
-            String SQL_REQUETE_DELETE_LIEU = "DELETE FROM lieu WHERE id = " + idLieu;
-            requeteSupprimerLieu = connection.createStatement();
-            System.out.println("SQL : " + SQL_REQUETE_DELETE_LIEU);
-            requeteSupprimerLieu.execute(SQL_REQUETE_DELETE_LIEU);
+            String SQL_REQUETE_PREPARER_DELETE_LIEU = "DELETE FROM lieu WHERE id = ?";
+            requetePreparerSupprimerLieu = connection.prepareStatement(SQL_REQUETE_PREPARER_DELETE_LIEU);
+            requetePreparerSupprimerLieu.setInt(1, idLieu);
+            System.out.println("SQL PREPARER : " + SQL_REQUETE_PREPARER_DELETE_LIEU);
+
+            requetePreparerSupprimerLieu.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public Lieu rapporterLieu(int idLieu){
+    public Lieu rapporterLieu(int idLieu) {
         try {
-            Statement requeteLieu = connection.createStatement();
-            String SQL_RAPPORTER_LIEU = "SELECT * FROM lieu WHERE id = " + idLieu;
-            System.out.println(SQL_RAPPORTER_LIEU);
-            ResultSet curseurLieu = requeteLieu.executeQuery(SQL_RAPPORTER_LIEU);
+            String SQL_PREPARER_RAPPORTER_LIEU = "SELECT * FROM lieu WHERE id = ?";
+            PreparedStatement requetePreparerRapporterLieu = connection.prepareStatement(SQL_PREPARER_RAPPORTER_LIEU);
+            requetePreparerRapporterLieu.setInt(1, idLieu);
+            System.out.println("SQL PREPARER : " + SQL_PREPARER_RAPPORTER_LIEU);
+            ResultSet curseurLieu = requetePreparerRapporterLieu.executeQuery();
             curseurLieu.next();
 
             int id = curseurLieu.getInt("id");
