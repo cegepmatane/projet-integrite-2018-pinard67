@@ -24,7 +24,7 @@ public class Controleur {
 
     private Controleur() {}
 
-    private static Controleur instance = null; //null est important
+    private static Controleur instance = null;
 
     public static Controleur getInstance() {
         if (null == instance) {
@@ -44,7 +44,6 @@ public class Controleur {
         this.vueEditerPoisson = this.navigateurDesVues.getVueEditerPoisson();
         this.vueAjouterPoisson = this.navigateurDesVues.getVueAjouterPoisson();
 
-        //test
         List<Lieu> listeLieuTest = lieuDAO.listerLieu();
         this.vueListeLieu.afficherListeLieu(listeLieuTest);
 
@@ -52,6 +51,15 @@ public class Controleur {
         /*this.navigateurDesVues.naviguerVersVueAjouterLieu();
         this.navigateurDesVues.naviguerVersVueLieu();
         this.navigateurDesVues.naviguerVersVueListeLieu();*/
+    }
+
+    ////\\//        \\//\\//
+    //\\//\\  LIEU  //\\//\\
+    ////\\//        \\//\\//
+
+    public void notifierNaviguerVersVueAjouterLieu() {
+        this.vueAjouterLieu.netoyerGrilleChamp();
+        this.navigateurDesVues.naviguerVersVueAjouterLieu();
     }
 
     public void notifierActionAjouterLieu(Lieu lieuAjouter) {
@@ -72,9 +80,21 @@ public class Controleur {
         this.navigateurDesVues.naviguerVersVueListeLieu();
     }
 
-    public List<Poisson> notifierListePoissonCelonLieu(Lieu lieu) {
-        return this.poissonDAO.listerPoisson(lieu.getId());
+    public void notifierActionSupprimerLieu(int id) {
+        lieuDAO.supprimerLieu(id);
+
+        //actualiser liste lieu
+        this.vueListeLieu.afficherListeLieu(lieuDAO.listerLieu());
+        this.navigateurDesVues.naviguerVersVueListeLieu();
     }
+
+    public List<Poisson> notifierListePoissonCelonLieu(Lieu lieu) {
+        return this.poissonDAO.listerPoissonCelonLieu(lieu.getId());
+    }
+
+    ////\\//         \\//\\//
+    //\\//\\ POISSON //\\//\\
+    ////\\//         \\//\\//
 
     public void notifierActionNaviguerEditerPoisson(int idPoisson) {
         this.vueEditerPoisson.updateVueEditerPoisson(this.poissonDAO.rapporterPoisson(idPoisson));
@@ -106,10 +126,6 @@ public class Controleur {
         this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
 
-    public NavigateurDesVues getNavigateurDesVues() {
-        return navigateurDesVues;
-    }
-
     public void notifierActionSupprimerPoisson(int idPoisson,int idLieu) {
         poissonDAO.supprimerPoisson(idPoisson);
 
@@ -118,16 +134,9 @@ public class Controleur {
         this.navigateurDesVues.naviguerVersVueEditerLieu();
     }
 
-    public void notifierActionSupprimerLieu(int id) {
-        lieuDAO.supprimerLieu(id);
 
-        //actualiser liste lieu
-        this.vueListeLieu.afficherListeLieu(lieuDAO.listerLieu());
-        this.navigateurDesVues.naviguerVersVueListeLieu();
-    }
 
-    public void notifierNaviguerVersVueAjouterLieu() {
-        this.vueAjouterLieu.netoyerGrilleChamp();
-        this.navigateurDesVues.naviguerVersVueAjouterLieu();
+    public NavigateurDesVues getNavigateurDesVues() {
+        return navigateurDesVues;
     }
 }
