@@ -1,12 +1,13 @@
 package Accesseur;
 
-
 import Modele.Lieu;
 import Modele.Poisson;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static Accesseur.Acces.*;
 
 public class PoissonDAO {
 
@@ -30,7 +31,6 @@ public class PoissonDAO {
     public List<Poisson> listerPoissonCelonLieu(int id_lieu) {
         List<Poisson> listePoisson = new ArrayList<>();
         try {
-            String SQL_PREPARER_SELECT_POISSON_CELON_LIEU = "SELECT * FROM poisson WHERE id_lieu = ?";
             PreparedStatement requetePreparerListePoisson = connection.prepareStatement(SQL_PREPARER_SELECT_POISSON_CELON_LIEU);
             requetePreparerListePoisson.setInt(1, id_lieu);
             ResultSet curseurListePoisson = requetePreparerListePoisson.executeQuery();
@@ -52,7 +52,6 @@ public class PoissonDAO {
 
     public Poisson rapporterPoisson(int idPoisson) {
         try {
-            String SQL_PREPARER_TROUVER_POISSON = "SELECT * FROM poisson WHERE id = ?";
             PreparedStatement requetePreparerRapporterPoisson = connection.prepareStatement(SQL_PREPARER_TROUVER_POISSON);
             requetePreparerRapporterPoisson.setInt(1, idPoisson);
             System.out.println("SQL PREPARER : " + SQL_PREPARER_TROUVER_POISSON);
@@ -76,8 +75,6 @@ public class PoissonDAO {
     }
 
     public void modifierPoisson(Poisson poisson) {
-        String SQL_PREPARER_REQUETE_UPDATE_POISSON = "UPDATE poisson SET nom =?,famille = ?, taille = ?, poids = ? WHERE id = ?";
-
         System.out.println("SQL PREPARER:" + SQL_PREPARER_REQUETE_UPDATE_POISSON);
 
         PreparedStatement requetePrearerModifierPoisson;
@@ -97,12 +94,11 @@ public class PoissonDAO {
     }
 
     public Lieu trouverLieuCelonPoisson(Poisson poisson) {
-        String SQL_PREPARER_REQUETE_TROUVER_LIEU = "SELECT * FROM lieu WHERE id = (SELECT poisson.id_lieu FROM poisson WHERE id = ?)";
         PreparedStatement requetePreparerTouverLieuCelonPoisson;
         try {
-            requetePreparerTouverLieuCelonPoisson = connection.prepareStatement(SQL_PREPARER_REQUETE_TROUVER_LIEU);
+            requetePreparerTouverLieuCelonPoisson = connection.prepareStatement(SQL_PREPARER_REQUETE_TROUVER_LIEU_CELON_POISSON);
             requetePreparerTouverLieuCelonPoisson.setInt(1, poisson.getId());
-            System.out.println("SQL PREPARER" + SQL_PREPARER_REQUETE_TROUVER_LIEU);
+            System.out.println("SQL PREPARER" + SQL_PREPARER_REQUETE_TROUVER_LIEU_CELON_POISSON);
 
             ResultSet curseurPoisson = requetePreparerTouverLieuCelonPoisson.executeQuery();
             curseurPoisson.next();
@@ -127,7 +123,6 @@ public class PoissonDAO {
     public void ajouterPoisson(Poisson poisson) {
         PreparedStatement requetePreparerAjouterPoisson;
         try {
-            String SQL_PREPARER_REQUETE_INSERT_POISSON = "INSERT into poisson(nom, famille,taille,poids,id_lieu) VALUES (?,?,?,?,?)";
             requetePreparerAjouterPoisson = connection.prepareStatement(SQL_PREPARER_REQUETE_INSERT_POISSON);
 
             requetePreparerAjouterPoisson.setString(1, poisson.getNom());
@@ -147,7 +142,6 @@ public class PoissonDAO {
     public void supprimerPoisson(int idPoisson) {
         PreparedStatement requetePreparerSupprimerPoisson;
         try {
-            String SQL_PREPARER_REQUETE_DELETE_POISSON = "DELETE FROM poisson WHERE id = ?";
             requetePreparerSupprimerPoisson = connection.prepareStatement(SQL_PREPARER_REQUETE_DELETE_POISSON);
             requetePreparerSupprimerPoisson.setInt(1,idPoisson);
             System.out.println("SQL PREPARER : " + SQL_PREPARER_REQUETE_DELETE_POISSON);
