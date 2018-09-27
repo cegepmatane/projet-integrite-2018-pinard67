@@ -30,6 +30,36 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: copierchamplieu(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.copierchamplieu() RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+	lieuCourante RECORD;
+	totalLieu integer;
+	moyenneHabitant integer;
+	moyenneTaille double precision;
+	checksum text;
+BEGIN	
+checksum:='';
+	FOR lieuCourante IN
+		SELECT * from lieu
+	LOOP
+		
+	END LOOP; 
+	select count(*) INTO totalLieu from lieu;
+	select AVG(habitant) INTO moyenneHabitant from lieu;
+	select AVG(taille) INTO moyenneTaille from lieu;
+	INSERT INTO statlieu (date, nombre_lieu, moyene_habitant, moyene_taille, checksum) VALUES ( NOW(), totalLieu ,moyenneHabitant, moyenneTaille, checksum);
+
+END $$;
+
+
+ALTER FUNCTION public.copierchamplieu() OWNER TO postgres;
+
+--
 -- Name: journaliser(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -191,6 +221,81 @@ ALTER SEQUENCE public.poisson_id_seq OWNED BY public.poisson.id;
 
 
 --
+-- Name: statlieu; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.statlieu (
+    id bigint NOT NULL,
+    date timestamp with time zone NOT NULL,
+    nombre_lieu integer,
+    moyene_habitant double precision,
+    moyene_taille double precision,
+    checksum text
+);
+
+
+ALTER TABLE public.statlieu OWNER TO postgres;
+
+--
+-- Name: statLieu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."statLieu_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."statLieu_id_seq" OWNER TO postgres;
+
+--
+-- Name: statLieu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."statLieu_id_seq" OWNED BY public.statlieu.id;
+
+
+--
+-- Name: statPoisson; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."statPoisson" (
+    id integer NOT NULL,
+    date timestamp with time zone NOT NULL,
+    "nombrePoisson" integer,
+    "moyeneTaille" double precision,
+    "moyenePoids" double precision,
+    "checkSum" integer
+);
+
+
+ALTER TABLE public."statPoisson" OWNER TO postgres;
+
+--
+-- Name: statPoisson_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."statPoisson_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."statPoisson_id_seq" OWNER TO postgres;
+
+--
+-- Name: statPoisson_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."statPoisson_id_seq" OWNED BY public."statPoisson".id;
+
+
+--
 -- Name: journal id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -212,50 +317,36 @@ ALTER TABLE ONLY public.poisson ALTER COLUMN id SET DEFAULT nextval('public.pois
 
 
 --
+-- Name: statPoisson id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."statPoisson" ALTER COLUMN id SET DEFAULT nextval('public."statPoisson_id_seq"'::regclass);
+
+
+--
+-- Name: statlieu id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.statlieu ALTER COLUMN id SET DEFAULT nextval('public."statLieu_id_seq"'::regclass);
+
+
+--
 -- Data for Name: journal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.journal (id, date, operation, avant_operation, apres_operation, objet) FROM stdin;
-1	2018-09-20 10:31:39.765147-04	ajouter	poisson1	poisson2	objet
-3	2018-09-20 11:00:01.255973-04	ajouter	poisson1	poisson2	objet
-4	2018-09-20 11:05:44.231756-04	ajouter	[hagenau]	poisson2	objet
-5	2018-09-20 11:37:06.423827-04	ajouter	\N	[hagenau]	objet
-6	2018-09-20 11:37:06.423827-04	ajouter	\N	[hagenau]	objet
-7	2018-09-20 11:40:13.855614-04	INSERT	\N	[uu]	lieu
-8	2018-09-20 11:40:13.855614-04	INSERT	\N	[uu]	lieu
-9	2018-09-20 11:41:52.152181-04	UPDATE	[uu]	[aeaeraefq]	lieu
-10	2018-09-20 11:42:09.395969-04	INSERT	\N	[zf]	lieu
-11	2018-09-20 11:42:09.395969-04	INSERT	\N	[zf]	lieu
-12	2018-09-20 11:42:09.395969-04	INSERT	\N	[zf]	lieu
-13	2018-09-20 11:43:16.695961-04	UPDATE	[zf]	[aefr]	lieu
-14	2018-09-20 11:43:25.89467-04	INSERT	\N	[aze]	lieu
-15	2018-09-20 11:49:46.855563-04	DELETE	[aeaeraefq]	\N	lieu
-16	2018-09-20 11:49:47.414156-04	DELETE	[aeaeraefq]	\N	lieu
-17	2018-09-20 11:49:48.321552-04	DELETE	[aeaeraefq]	\N	lieu
-18	2018-09-20 11:49:48.636144-04	DELETE	[aeaeraefq]	\N	lieu
-19	2018-09-20 11:49:49.125091-04	DELETE	[aeaeraefq]	\N	lieu
-20	2018-09-20 11:49:58.493421-04	DELETE	[aefr]	\N	lieu
-21	2018-09-20 11:50:03.692587-04	DELETE	[aefr]	\N	lieu
-22	2018-09-20 11:50:04.442113-04	DELETE	[aefr]	\N	lieu
-23	2018-09-20 11:50:04.753941-04	DELETE	[aefr]	\N	lieu
-24	2018-09-20 11:50:05.083098-04	DELETE	[aefr]	\N	lieu
-25	2018-09-20 11:50:05.229317-04	DELETE	[aefr]	\N	lieu
-26	2018-09-20 11:50:05.403971-04	DELETE	[aefr]	\N	lieu
-27	2018-09-20 11:50:05.563667-04	DELETE	[aefr]	\N	lieu
-28	2018-09-20 11:50:05.72575-04	DELETE	[aefr]	\N	lieu
-29	2018-09-20 11:50:05.889736-04	DELETE	[aefr]	\N	lieu
-30	2018-09-20 11:50:06.301859-04	DELETE	[aefr]	\N	lieu
-31	2018-09-20 11:50:55.946831-04	DELETE	[aeaeraefq]	\N	lieu
-32	2018-09-20 11:51:06.540734-04	UPDATE	[Baie-Comeau]	[zz]	lieu
-33	2018-09-20 11:51:23.99889-04	DELETE	[aefr]	\N	lieu
-34	2018-09-20 11:51:35.575475-04	UPDATE	[Quebec]	[Quebec123]	lieu
-35	2018-09-20 13:05:48.962491-04	DELETE	[aeaeraefq]	\N	lieu
-36	2018-09-20 13:05:49.865752-04	DELETE	[eee]	\N	lieu
-37	2018-09-20 13:05:54.634289-04	UPDATE	[coucou]	[salut]	lieu
 38	2018-09-20 19:30:43.395288-04	UPDATE	[ Ville : Otawa ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]	[oh ta wahh]	lieu
 39	2018-09-20 19:34:07.348468-04	UPDATE	[ Ville : oh ta wahh ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]	[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]	lieu
 40	2018-09-20 19:34:24.345947-04	DELETE	[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]	\N	lieu
 41	2018-09-20 19:34:37.223331-04	INSERT	\N	[ Ville : Ottawa ][ Taille : 123 ][ Habitants : 456 ][ EstCapitale : oui ]	lieu
+42	2018-09-20 20:42:11.153905-04	DELETE	[ Ville : salut ][ Taille : 1414 ][ Habitants : 314 ][ EstCapitale : non ]	\N	lieu
+43	2018-09-20 20:45:41.080491-04	UPDATE	[ Ville : Matano ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	lieu
+44	2018-09-20 20:45:57.330142-04	INSERT	\N	[ Ville : Saint-Ulrich ][ Taille : 1234 ][ Habitants : 123 ][ EstCapitale : non ]	lieu
+45	2018-09-20 21:05:14.60793-04	UPDATE	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : oui ]	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
+46	2018-09-20 21:05:16.44287-04	DELETE	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : oui ]	\N	lieu
+47	2018-09-26 13:54:45.527684-04	UPDATE	[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
+48	2018-09-26 13:54:48.712493-04	UPDATE	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	lieu
+49	2018-09-26 13:55:04.750157-04	UPDATE	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
 \.
 
 
@@ -264,12 +355,11 @@ COPY public.journal (id, date, operation, avant_operation, apres_operation, obje
 --
 
 COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
-15	hagenau	123	12	oui
-25	hagenau	123	12	oui
-14	sertyu	123	12	non
-2	Matano	228	143420000	non
-27	salut	1414	314	non
 29	Ottawa	123	456	oui
+30	Saint-Ulrich	1234	123	non
+14	sertyu	123	12	non
+2	Matane	228	143420000	non
+15	hagenau	123	12	non
 \.
 
 
@@ -280,6 +370,24 @@ COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
 COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
 3	brochet	Esox Lucuis	86	4521	2
 5	silure	siluridé	156	6542	2
+20	aze	aze	123	123	15
+\.
+
+
+--
+-- Data for Name: statPoisson; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."statPoisson" (id, date, "nombrePoisson", "moyeneTaille", "moyenePoids", "checkSum") FROM stdin;
+\.
+
+
+--
+-- Data for Name: statlieu; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.statlieu (id, date, nombre_lieu, moyene_habitant, moyene_taille, checksum) FROM stdin;
+1	2018-09-26 22:13:02.983209-04	5	28684121	366.19999999999999	
 \.
 
 
@@ -287,21 +395,35 @@ COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
 -- Name: journal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.journal_id_seq', 41, true);
+SELECT pg_catalog.setval('public.journal_id_seq', 49, true);
 
 
 --
 -- Name: lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lieu_id_seq', 29, true);
+SELECT pg_catalog.setval('public.lieu_id_seq', 30, true);
 
 
 --
 -- Name: poisson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.poisson_id_seq', 17, true);
+SELECT pg_catalog.setval('public.poisson_id_seq', 20, true);
+
+
+--
+-- Name: statLieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."statLieu_id_seq"', 1, true);
+
+
+--
+-- Name: statPoisson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."statPoisson_id_seq"', 1, false);
 
 
 --
@@ -326,6 +448,22 @@ ALTER TABLE ONLY public.lieu
 
 ALTER TABLE ONLY public.poisson
     ADD CONSTRAINT poisson_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: statlieu statLieu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.statlieu
+    ADD CONSTRAINT "statLieu_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: statPoisson statPoisson_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."statPoisson"
+    ADD CONSTRAINT "statPoisson_pkey" PRIMARY KEY (id);
 
 
 --

@@ -82,8 +82,8 @@
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-09-20.19:36:30.581</IntrospectionTimestamp>
-      <IntrospectionStateNumber>828</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-09-26.22:15:08.801</IntrospectionTimestamp>
+      <IntrospectionStateNumber>866</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -129,7 +129,25 @@
       <HandlerId>335</HandlerId>
       <Type>index</Type>
     </access-method>
-    <sequence id="23" parent="16" name="journal_id_seq">
+    <sequence id="23" parent="16" name="statLieu_id_seq">
+      <ObjectId>32894</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>846</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="24" parent="16" name="statPoisson_id_seq">
+      <ObjectId>32902</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>847</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="25" parent="16" name="journal_id_seq">
       <ObjectId>32868</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>737</StateNumber>
@@ -138,7 +156,7 @@
       <CacheSize>1</CacheSize>
       <DataType>integer</DataType>
     </sequence>
-    <sequence id="24" parent="16" name="lieu_id_seq">
+    <sequence id="26" parent="16" name="lieu_id_seq">
       <ObjectId>16478</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>594</StateNumber>
@@ -147,7 +165,7 @@
       <CacheSize>1</CacheSize>
       <DataType>integer</DataType>
     </sequence>
-    <sequence id="25" parent="16" name="poisson_id_seq">
+    <sequence id="27" parent="16" name="poisson_id_seq">
       <ObjectId>16489</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>605</StateNumber>
@@ -156,22 +174,43 @@
       <CacheSize>1</CacheSize>
       <DataType>integer</DataType>
     </sequence>
-    <table id="26" parent="16" name="journal">
+    <table id="28" parent="16" name="journal">
       <ObjectId>32870</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>745</StateNumber>
     </table>
-    <table id="27" parent="16" name="lieu">
+    <table id="29" parent="16" name="lieu">
       <ObjectId>16480</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>828</StateNumber>
     </table>
-    <table id="28" parent="16" name="poisson">
+    <table id="30" parent="16" name="poisson">
       <ObjectId>16491</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>634</StateNumber>
     </table>
-    <routine id="29" parent="16" name="journaliser">
+    <table id="31" parent="16" name="statPoisson">
+      <ObjectId>32904</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>847</StateNumber>
+    </table>
+    <table id="32" parent="16" name="statlieu">
+      <ObjectId>32896</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>866</StateNumber>
+    </table>
+    <routine id="33" parent="16" name="copierchamplieu">
+      <ObjectId>32911</ObjectId>
+      <Owner>postgres</Owner>
+      <SourceTextLength>517</SourceTextLength>
+      <StateNumber>864</StateNumber>
+      <VolatilityKind>volatile</VolatilityKind>
+      <ResultsDefinition>void</ResultsDefinition>
+      <LanguageName>plpgsql</LanguageName>
+      <RoutineKind>function</RoutineKind>
+      <Cost>100.0</Cost>
+    </routine>
+    <routine id="34" parent="16" name="journaliser">
       <ObjectId>32892</ObjectId>
       <Owner>postgres</Owner>
       <SourceTextLength>1225</SourceTextLength>
@@ -182,7 +221,7 @@
       <RoutineKind>function</RoutineKind>
       <Cost>100.0</Cost>
     </routine>
-    <column id="30" parent="26" name="id">
+    <column id="35" parent="28" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -191,51 +230,51 @@
       <TypeId>23</TypeId>
       <SequenceName>journal_id_seq</SequenceName>
     </column>
-    <column id="31" parent="26" name="date">
+    <column id="36" parent="28" name="date">
       <Position>2</Position>
       <DataType>timestamp with time zone|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>737</StateNumber>
       <TypeId>1184</TypeId>
     </column>
-    <column id="32" parent="26" name="operation">
+    <column id="37" parent="28" name="operation">
       <Position>3</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>737</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="33" parent="26" name="avant_operation">
+    <column id="38" parent="28" name="avant_operation">
       <Position>4</Position>
       <DataType>text|0s</DataType>
       <StateNumber>737</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="34" parent="26" name="apres_operation">
+    <column id="39" parent="28" name="apres_operation">
       <Position>5</Position>
       <DataType>text|0s</DataType>
       <StateNumber>737</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="35" parent="26" name="objet">
+    <column id="40" parent="28" name="objet">
       <Position>6</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>745</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <index id="36" parent="26" name="journal_pkey">
+    <index id="41" parent="28" name="journal_pkey">
       <ObjectId>32877</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="37" parent="26" name="journal_pkey">
+    <key id="42" parent="28" name="journal_pkey">
       <ObjectId>32878</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>journal_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="38" parent="27" name="id">
+    <column id="43" parent="29" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -244,42 +283,42 @@
       <TypeId>23</TypeId>
       <SequenceName>lieu_id_seq</SequenceName>
     </column>
-    <column id="39" parent="27" name="ville">
+    <column id="44" parent="29" name="ville">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <StateNumber>594</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="40" parent="27" name="taille">
+    <column id="45" parent="29" name="taille">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>594</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="41" parent="27" name="habitant">
+    <column id="46" parent="29" name="habitant">
       <Position>4</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>594</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="42" parent="27" name="estcapitale">
+    <column id="47" parent="29" name="estcapitale">
       <Position>5</Position>
       <DataType>text|0s</DataType>
       <StateNumber>594</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <index id="43" parent="27" name="lieu_pkey">
+    <index id="48" parent="29" name="lieu_pkey">
       <ObjectId>16487</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="44" parent="27" name="lieu_pkey">
+    <key id="49" parent="29" name="lieu_pkey">
       <ObjectId>16488</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>lieu_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <trigger id="45" parent="27" name="evenementlieu">
+    <trigger id="50" parent="29" name="evenementlieu">
       <ObjectId>32893</ObjectId>
       <StateNumber>828</StateNumber>
       <Turn>before-row</Turn>
@@ -287,7 +326,7 @@
       <FireMode>origin</FireMode>
       <CallRoutineId>32892</CallRoutineId>
     </trigger>
-    <column id="46" parent="28" name="id">
+    <column id="51" parent="30" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -296,52 +335,52 @@
       <TypeId>23</TypeId>
       <SequenceName>poisson_id_seq</SequenceName>
     </column>
-    <column id="47" parent="28" name="nom">
+    <column id="52" parent="30" name="nom">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="48" parent="28" name="famille">
+    <column id="53" parent="30" name="famille">
       <Position>3</Position>
       <DataType>text|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="49" parent="28" name="taille">
+    <column id="54" parent="30" name="taille">
       <Position>4</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="50" parent="28" name="poids">
+    <column id="55" parent="30" name="poids">
       <Position>5</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="51" parent="28" name="id_lieu">
+    <column id="56" parent="30" name="id_lieu">
       <Position>6</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>605</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <index id="52" parent="28" name="poisson_pkey">
+    <index id="57" parent="30" name="poisson_pkey">
       <ObjectId>16498</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="53" parent="28" name="fki_fk_id_lieu">
+    <index id="58" parent="30" name="fki_fk_id_lieu">
       <ObjectId>24636</ObjectId>
       <ColNames>id_lieu</ColNames>
     </index>
-    <key id="54" parent="28" name="poisson_pkey">
+    <key id="59" parent="30" name="poisson_pkey">
       <ObjectId>16499</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>poisson_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="55" parent="28" name="fk_id_lieu">
+    <foreign-key id="60" parent="30" name="fk_id_lieu">
       <ObjectId>24631</ObjectId>
       <ColNames>id_lieu</ColNames>
       <RefTableId>16480</RefTableId>
@@ -352,7 +391,113 @@
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <argument id="56" parent="29">
+    <column id="61" parent="31" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>847</StateNumber>
+      <DefaultExpression>nextval(&apos;&quot;statPoisson_id_seq&quot;&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>statPoisson_id_seq</SequenceName>
+    </column>
+    <column id="62" parent="31" name="date">
+      <Position>2</Position>
+      <DataType>timestamp with time zone|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>847</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="63" parent="31" name="nombrePoisson">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>847</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="64" parent="31" name="moyeneTaille">
+      <Position>4</Position>
+      <DataType>double precision|0s</DataType>
+      <StateNumber>847</StateNumber>
+      <TypeId>701</TypeId>
+    </column>
+    <column id="65" parent="31" name="moyenePoids">
+      <Position>5</Position>
+      <DataType>double precision|0s</DataType>
+      <StateNumber>847</StateNumber>
+      <TypeId>701</TypeId>
+    </column>
+    <column id="66" parent="31" name="checkSum">
+      <Position>6</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>847</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="67" parent="31" name="statPoisson_pkey">
+      <ObjectId>32908</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="68" parent="31" name="statPoisson_pkey">
+      <ObjectId>32909</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>statPoisson_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="69" parent="32" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>846</StateNumber>
+      <DefaultExpression>nextval(&apos;&quot;statLieu_id_seq&quot;&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+      <SequenceName>statLieu_id_seq</SequenceName>
+    </column>
+    <column id="70" parent="32" name="date">
+      <Position>2</Position>
+      <DataType>timestamp with time zone|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>846</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="71" parent="32" name="nombre_lieu">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>857</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="72" parent="32" name="moyene_habitant">
+      <Position>4</Position>
+      <DataType>double precision|0s</DataType>
+      <StateNumber>859</StateNumber>
+      <TypeId>701</TypeId>
+    </column>
+    <column id="73" parent="32" name="moyene_taille">
+      <Position>5</Position>
+      <DataType>double precision|0s</DataType>
+      <StateNumber>860</StateNumber>
+      <TypeId>701</TypeId>
+    </column>
+    <column id="74" parent="32" name="checksum">
+      <Position>7</Position>
+      <DataType>text|0s</DataType>
+      <StateNumber>866</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <index id="75" parent="32" name="statLieu_pkey">
+      <ObjectId>32900</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="76" parent="32" name="statLieu_pkey">
+      <ObjectId>32901</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>statLieu_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <argument id="77" parent="33">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>void|0s</DataType>
+    </argument>
+    <argument id="78" parent="34">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>trigger|0s</DataType>
     </argument>
