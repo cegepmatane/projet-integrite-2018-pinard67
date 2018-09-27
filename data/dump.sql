@@ -43,12 +43,12 @@ DECLARE
 	moyenneTaille double precision;
 	checksum text;
 BEGIN	
-checksum:='';
-	FOR lieuCourante IN
-		SELECT * from lieu
+	checksum:='';
+	FOR lieuCourante IN SELECT * from lieu
 	LOOP
-		
+		SELECT MD5(string_agg(ville,'-'))  INTO checksum FROM lieu;
 	END LOOP; 
+	
 	select count(*) INTO totalLieu from lieu;
 	select AVG(habitant) INTO moyenneHabitant from lieu;
 	select AVG(taille) INTO moyenneTaille from lieu;
@@ -388,6 +388,8 @@ COPY public."statPoisson" (id, date, "nombrePoisson", "moyeneTaille", "moyenePoi
 
 COPY public.statlieu (id, date, nombre_lieu, moyene_habitant, moyene_taille, checksum) FROM stdin;
 1	2018-09-26 22:13:02.983209-04	5	28684121	366.19999999999999	
+2	2018-09-26 22:35:35.259133-04	5	28684121	366.19999999999999	Ottawa-Saint-Ulrich-sertyu-Matane-hagenau
+3	2018-09-26 22:37:32.505483-04	5	28684121	366.19999999999999	fdf85bdf9acdb11f145fea4ab0d1b18b
 \.
 
 
@@ -416,7 +418,7 @@ SELECT pg_catalog.setval('public.poisson_id_seq', 20, true);
 -- Name: statLieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."statLieu_id_seq"', 1, true);
+SELECT pg_catalog.setval('public."statLieu_id_seq"', 3, true);
 
 
 --
