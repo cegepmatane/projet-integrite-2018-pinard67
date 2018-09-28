@@ -66,35 +66,6 @@ $$;
 ALTER FUNCTION public.copierchamplieu() OWNER TO postgres;
 
 --
--- Name: copierchamplieupoisson(); Type: FUNCTION; Schema: public; Owner: postgres
---
-
-CREATE FUNCTION public.copierchamplieupoisson() RETURNS void
-    LANGUAGE plpgsql
-    AS $$
-
-DECLARE 
-	lieuCourante RECORD;
-	totalLieu integer;
-	moyenneHabitant integer;
-	moyenneTaille double precision[];
-	checksum text;
-BEGIN	
-	checksum:='';
-	FOR lieuCourante IN SELECT * from lieu
-	LOOP
-		--SELECT MD5(string_agg(ville,'-'))  INTO checksum FROM lieu;
-	END LOOP; 
-	select AVG(taille) INTO moyenneTaille from poisson group by poisson.id_lieu;
-	INSERT INTO statpoissonlieu (date, moyenne_taille) VALUES ( NOW(), moyenneTaille);
-
-END 
-$$;
-
-
-ALTER FUNCTION public.copierchamplieupoisson() OWNER TO postgres;
-
---
 -- Name: copierchamppoisson(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -123,9 +94,10 @@ BEGIN
 	select count(*) INTO totalPoisson from poisson;
 	select AVG(taille) INTO moyenneTaille from poisson;
 	select AVG(poids) INTO moyennePoids from poisson;
-	INSERT INTO statpoisson (date, nombre_poisson, moyene_taille, moyene_poids, checksum_nom) VALUES ( NOW(), totalPoisson ,moyenneTaille, moyennePoids, checksum);
+	INSERT INTO statpoisson (date, nombre_poisson, moyene_taille, moyene_poids, checksum) VALUES ( NOW(), totalPoisson ,moyenneTaille, moyennePoids, MD5(checksum));
 
 END 
+
 $$;
 
 
@@ -336,7 +308,7 @@ ALTER SEQUENCE public."statLieu_id_seq" OWNED BY public.statlieu.id;
 CREATE TABLE public.statpoisson (
     id integer NOT NULL,
     date timestamp with time zone NOT NULL,
-    checksum_nom text,
+    checksum text,
     moyene_taille double precision,
     moyene_poids text,
     nombre_poisson integer
@@ -365,43 +337,6 @@ ALTER TABLE public."statPoisson_id_seq" OWNER TO postgres;
 --
 
 ALTER SEQUENCE public."statPoisson_id_seq" OWNED BY public.statpoisson.id;
-
-
---
--- Name: statpoissonlieu; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.statpoissonlieu (
-    id integer NOT NULL,
-    nombre_poisson integer,
-    moyenne_taille double precision,
-    moyenne_poids double precision,
-    checksum text
-);
-
-
-ALTER TABLE public.statpoissonlieu OWNER TO postgres;
-
---
--- Name: statpoissonlieu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.statpoissonlieu_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.statpoissonlieu_id_seq OWNER TO postgres;
-
---
--- Name: statpoissonlieu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.statpoissonlieu_id_seq OWNED BY public.statpoissonlieu.id;
 
 
 --
@@ -437,13 +372,6 @@ ALTER TABLE ONLY public.statlieu ALTER COLUMN id SET DEFAULT nextval('public."st
 --
 
 ALTER TABLE ONLY public.statpoisson ALTER COLUMN id SET DEFAULT nextval('public."statPoisson_id_seq"'::regclass);
-
-
---
--- Name: statpoissonlieu id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.statpoissonlieu ALTER COLUMN id SET DEFAULT nextval('public.statpoissonlieu_id_seq'::regclass);
 
 
 --
@@ -510,16 +438,8 @@ COPY public.statlieu (id, date, nombre_lieu, moyene_habitant, moyene_taille, che
 -- Data for Name: statpoisson; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.statpoisson (id, date, checksum_nom, moyene_taille, moyene_poids, nombre_poisson) FROM stdin;
+COPY public.statpoisson (id, date, checksum, moyene_taille, moyene_poids, nombre_poisson) FROM stdin;
 1	2018-09-26 22:51:18.133171-04	bebd990ddb07035f226d64f5d8794f59	121.66666666666667	3728.66666666667	3
-\.
-
-
---
--- Data for Name: statpoissonlieu; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.statpoissonlieu (id, nombre_poisson, moyenne_taille, moyenne_poids, checksum) FROM stdin;
 \.
 
 
@@ -556,13 +476,6 @@ SELECT pg_catalog.setval('public."statLieu_id_seq"', 7, true);
 --
 
 SELECT pg_catalog.setval('public."statPoisson_id_seq"', 1, true);
-
-
---
--- Name: statpoissonlieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.statpoissonlieu_id_seq', 1, false);
 
 
 --
@@ -603,14 +516,6 @@ ALTER TABLE ONLY public.statlieu
 
 ALTER TABLE ONLY public.statpoisson
     ADD CONSTRAINT "statPoisson_pkey" PRIMARY KEY (id);
-
-
---
--- Name: statpoissonlieu statpoissonlieu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.statpoissonlieu
-    ADD CONSTRAINT statpoissonlieu_pkey PRIMARY KEY (id);
 
 
 --
