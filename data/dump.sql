@@ -36,28 +36,63 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 CREATE FUNCTION public.copierchamplieu() RETURNS void
     LANGUAGE plpgsql
     AS $$
+
 DECLARE 
-	lieuCourante RECORD;
+	lieuCourant RECORD;
 	totalLieu integer;
 	moyenneHabitant integer;
 	moyenneTaille double precision;
 	checksum text;
 BEGIN	
 	checksum:='';
-	FOR lieuCourante IN SELECT * from lieu
+	FOR lieuCourant IN SELECT * from lieu
 	LOOP
-		SELECT MD5(string_agg(ville,'-'))  INTO checksum FROM lieu;
+		checksum:= checksum || lieuCourant.id || ', ';
+		checksum:= checksum || lieuCourant.ville || ', ';
+		checksum:= checksum || lieuCourant.taille || ', ';
+		checksum:= checksum || lieuCourant.habitant || ', ';
+		checksum:= checksum || lieuCourant.estcapitale || ', ';
 	END LOOP; 
 	
 	select count(*) INTO totalLieu from lieu;
 	select AVG(habitant) INTO moyenneHabitant from lieu;
 	select AVG(taille) INTO moyenneTaille from lieu;
-	INSERT INTO statlieu (date, nombre_lieu, moyene_habitant, moyene_taille, checksum) VALUES ( NOW(), totalLieu ,moyenneHabitant, moyenneTaille, checksum);
+	INSERT INTO statlieu (date, nombre_lieu, moyene_habitant, moyene_taille, checksum) VALUES ( NOW(), totalLieu ,moyenneHabitant, moyenneTaille, MD5(checksum));
 
-END $$;
+END 
+$$;
 
 
 ALTER FUNCTION public.copierchamplieu() OWNER TO postgres;
+
+--
+-- Name: copierchamplieupoisson(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.copierchamplieupoisson() RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+
+DECLARE 
+	lieuCourante RECORD;
+	totalLieu integer;
+	moyenneHabitant integer;
+	moyenneTaille double precision[];
+	checksum text;
+BEGIN	
+	checksum:='';
+	FOR lieuCourante IN SELECT * from lieu
+	LOOP
+		--SELECT MD5(string_agg(ville,'-'))  INTO checksum FROM lieu;
+	END LOOP; 
+	select AVG(taille) INTO moyenneTaille from poisson group by poisson.id_lieu;
+	INSERT INTO statpoissonlieu (date, moyenne_taille) VALUES ( NOW(), moyenneTaille);
+
+END 
+$$;
+
+
+ALTER FUNCTION public.copierchamplieupoisson() OWNER TO postgres;
 
 --
 -- Name: copierchamppoisson(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -66,6 +101,7 @@ ALTER FUNCTION public.copierchamplieu() OWNER TO postgres;
 CREATE FUNCTION public.copierchamppoisson() RETURNS void
     LANGUAGE plpgsql
     AS $$
+
 DECLARE 
 	poissonCourant RECORD;
 	totalPoisson integer;
@@ -76,7 +112,12 @@ BEGIN
 	checksum:='';
 	FOR poissonCourant IN SELECT * from poisson
 	LOOP
-		SELECT MD5(string_agg(nom,'-'))  INTO checksum FROM poisson;
+		checksum:= checksum || poissonCourant.id || ', ';
+		checksum:= checksum || poissonCourant.nom || ', ';
+		checksum:= checksum || poissonCourant.famille || ', ';
+		checksum:= checksum || poissonCourant.taille || ', ';
+		checksum:= checksum || poissonCourant.poids || ', ';
+		checksum:= checksum || poissonCourant.id_lieu || ', ';
 	END LOOP; 
 	
 	select count(*) INTO totalPoisson from poisson;
@@ -84,7 +125,8 @@ BEGIN
 	select AVG(poids) INTO moyennePoids from poisson;
 	INSERT INTO statpoisson (date, nombre_poisson, moyene_taille, moyene_poids, checksum_nom) VALUES ( NOW(), totalPoisson ,moyenneTaille, moyennePoids, checksum);
 
-END $$;
+END 
+$$;
 
 
 ALTER FUNCTION public.copierchamppoisson() OWNER TO postgres;
@@ -326,6 +368,43 @@ ALTER SEQUENCE public."statPoisson_id_seq" OWNED BY public.statpoisson.id;
 
 
 --
+-- Name: statpoissonlieu; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.statpoissonlieu (
+    id integer NOT NULL,
+    nombre_poisson integer,
+    moyenne_taille double precision,
+    moyenne_poids double precision,
+    checksum text
+);
+
+
+ALTER TABLE public.statpoissonlieu OWNER TO postgres;
+
+--
+-- Name: statpoissonlieu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.statpoissonlieu_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.statpoissonlieu_id_seq OWNER TO postgres;
+
+--
+-- Name: statpoissonlieu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.statpoissonlieu_id_seq OWNED BY public.statpoissonlieu.id;
+
+
+--
 -- Name: journal id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -361,6 +440,13 @@ ALTER TABLE ONLY public.statpoisson ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: statpoissonlieu id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.statpoissonlieu ALTER COLUMN id SET DEFAULT nextval('public.statpoissonlieu_id_seq'::regclass);
+
+
+--
 -- Data for Name: journal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -377,6 +463,7 @@ COPY public.journal (id, date, operation, avant_operation, apres_operation, obje
 47	2018-09-26 13:54:45.527684-04	UPDATE	[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
 48	2018-09-26 13:54:48.712493-04	UPDATE	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	lieu
 49	2018-09-26 13:55:04.750157-04	UPDATE	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
+50	2018-09-28 17:06:05.184311-04	UPDATE	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	[ Ville : Matane ][ Taille : 228 ][ Habitants : 14342 ][ EstCapitale : non ]	lieu
 \.
 
 
@@ -388,8 +475,8 @@ COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
 29	Ottawa	123	456	oui
 30	Saint-Ulrich	1234	123	non
 14	sertyu	123	12	non
-2	Matane	228	143420000	non
 15	hagenau	123	12	non
+2	Matane	228	14342	non
 \.
 
 
@@ -412,6 +499,10 @@ COPY public.statlieu (id, date, nombre_lieu, moyene_habitant, moyene_taille, che
 1	2018-09-26 22:13:02.983209-04	5	28684121	366.19999999999999	
 2	2018-09-26 22:35:35.259133-04	5	28684121	366.19999999999999	Ottawa-Saint-Ulrich-sertyu-Matane-hagenau
 3	2018-09-26 22:37:32.505483-04	5	28684121	366.19999999999999	fdf85bdf9acdb11f145fea4ab0d1b18b
+4	2018-09-28 17:03:16.857532-04	5	28684121	366.19999999999999	4627db04f7b91f7faac3832cbff9c9f6
+5	2018-09-28 17:03:48.453046-04	5	28684121	366.19999999999999	4627db04f7b91f7faac3832cbff9c9f6
+6	2018-09-28 17:06:09.432903-04	5	2989	366.19999999999999	298192107045b52b1c3924401acded1e
+7	2018-09-28 17:06:14.699252-04	5	2989	366.19999999999999	298192107045b52b1c3924401acded1e
 \.
 
 
@@ -425,10 +516,18 @@ COPY public.statpoisson (id, date, checksum_nom, moyene_taille, moyene_poids, no
 
 
 --
+-- Data for Name: statpoissonlieu; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.statpoissonlieu (id, nombre_poisson, moyenne_taille, moyenne_poids, checksum) FROM stdin;
+\.
+
+
+--
 -- Name: journal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.journal_id_seq', 49, true);
+SELECT pg_catalog.setval('public.journal_id_seq', 50, true);
 
 
 --
@@ -449,7 +548,7 @@ SELECT pg_catalog.setval('public.poisson_id_seq', 20, true);
 -- Name: statLieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."statLieu_id_seq"', 3, true);
+SELECT pg_catalog.setval('public."statLieu_id_seq"', 7, true);
 
 
 --
@@ -457,6 +556,13 @@ SELECT pg_catalog.setval('public."statLieu_id_seq"', 3, true);
 --
 
 SELECT pg_catalog.setval('public."statPoisson_id_seq"', 1, true);
+
+
+--
+-- Name: statpoissonlieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.statpoissonlieu_id_seq', 1, false);
 
 
 --
@@ -497,6 +603,14 @@ ALTER TABLE ONLY public.statlieu
 
 ALTER TABLE ONLY public.statpoisson
     ADD CONSTRAINT "statPoisson_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: statpoissonlieu statpoissonlieu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.statpoissonlieu
+    ADD CONSTRAINT statpoissonlieu_pkey PRIMARY KEY (id);
 
 
 --
