@@ -15,6 +15,28 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
 
+DROP DATABASE IF EXISTS "lieuPeche";
+--
+-- Name: lieuPeche; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE "lieuPeche" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'French_France.1252' LC_CTYPE = 'French_France.1252';
+
+
+ALTER DATABASE "lieuPeche" OWNER TO postgres;
+
+\connect "lieuPeche"
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
@@ -378,83 +400,76 @@ ALTER TABLE ONLY public.statpoisson ALTER COLUMN id SET DEFAULT nextval('public.
 -- Data for Name: journal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.journal (id, date, operation, avant_operation, apres_operation, objet) FROM stdin;
-38	2018-09-20 19:30:43.395288-04	UPDATE	[ Ville : Otawa ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]	[oh ta wahh]	lieu
-39	2018-09-20 19:34:07.348468-04	UPDATE	[ Ville : oh ta wahh ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]	[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]	lieu
-40	2018-09-20 19:34:24.345947-04	DELETE	[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]	\N	lieu
-41	2018-09-20 19:34:37.223331-04	INSERT	\N	[ Ville : Ottawa ][ Taille : 123 ][ Habitants : 456 ][ EstCapitale : oui ]	lieu
-42	2018-09-20 20:42:11.153905-04	DELETE	[ Ville : salut ][ Taille : 1414 ][ Habitants : 314 ][ EstCapitale : non ]	\N	lieu
-43	2018-09-20 20:45:41.080491-04	UPDATE	[ Ville : Matano ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	lieu
-44	2018-09-20 20:45:57.330142-04	INSERT	\N	[ Ville : Saint-Ulrich ][ Taille : 1234 ][ Habitants : 123 ][ EstCapitale : non ]	lieu
-45	2018-09-20 21:05:14.60793-04	UPDATE	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : oui ]	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
-46	2018-09-20 21:05:16.44287-04	DELETE	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : oui ]	\N	lieu
-47	2018-09-26 13:54:45.527684-04	UPDATE	[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
-48	2018-09-26 13:54:48.712493-04	UPDATE	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	lieu
-49	2018-09-26 13:55:04.750157-04	UPDATE	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]	lieu
-50	2018-09-28 17:06:05.184311-04	UPDATE	[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]	[ Ville : Matane ][ Taille : 228 ][ Habitants : 14342 ][ EstCapitale : non ]	lieu
-\.
+INSERT INTO public.journal VALUES (38, '2018-09-20 19:30:43.395288-04', 'UPDATE', '[ Ville : Otawa ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]', '[oh ta wahh]', 'lieu');
+INSERT INTO public.journal VALUES (39, '2018-09-20 19:34:07.348468-04', 'UPDATE', '[ Ville : oh ta wahh ][ Taille : 12432 ][ Habitants : 123345 ][ EstCapitale : non ]', '[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (40, '2018-09-20 19:34:24.345947-04', 'DELETE', '[ Ville : Ottawa ][ Taille : 2 ][ Habitants : 1 ][ EstCapitale : non ]', NULL, 'lieu');
+INSERT INTO public.journal VALUES (41, '2018-09-20 19:34:37.223331-04', 'INSERT', NULL, '[ Ville : Ottawa ][ Taille : 123 ][ Habitants : 456 ][ EstCapitale : oui ]', 'lieu');
+INSERT INTO public.journal VALUES (42, '2018-09-20 20:42:11.153905-04', 'DELETE', '[ Ville : salut ][ Taille : 1414 ][ Habitants : 314 ][ EstCapitale : non ]', NULL, 'lieu');
+INSERT INTO public.journal VALUES (43, '2018-09-20 20:45:41.080491-04', 'UPDATE', '[ Ville : Matano ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]', '[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (44, '2018-09-20 20:45:57.330142-04', 'INSERT', NULL, '[ Ville : Saint-Ulrich ][ Taille : 1234 ][ Habitants : 123 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (45, '2018-09-20 21:05:14.60793-04', 'UPDATE', '[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : oui ]', '[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (46, '2018-09-20 21:05:16.44287-04', 'DELETE', '[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : oui ]', NULL, 'lieu');
+INSERT INTO public.journal VALUES (47, '2018-09-26 13:54:45.527684-04', 'UPDATE', '[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]', '[ Ville : sertyu ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (48, '2018-09-26 13:54:48.712493-04', 'UPDATE', '[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]', '[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (49, '2018-09-26 13:55:04.750157-04', 'UPDATE', '[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]', '[ Ville : hagenau ][ Taille : 123 ][ Habitants : 12 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (50, '2018-09-28 17:06:05.184311-04', 'UPDATE', '[ Ville : Matane ][ Taille : 228 ][ Habitants : 143420000 ][ EstCapitale : non ]', '[ Ville : Matane ][ Taille : 228 ][ Habitants : 14342 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (51, '2018-10-04 11:46:50.767291-04', 'UPDATE', '[ Ville : Ottawa ][ Taille : 123 ][ Habitants : 456 ][ EstCapitale : oui ]', '[ Ville : Ottawa ][ Taille : 123 ][ Habitants : 456 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (52, '2018-10-04 11:47:34.563088-04', 'INSERT', NULL, '[ Ville : lieu ][ Taille : 123 ][ Habitants : 123 ][ EstCapitale : non ]', 'lieu');
+INSERT INTO public.journal VALUES (53, '2018-10-04 11:47:36.37119-04', 'DELETE', '[ Ville : lieu ][ Taille : 123 ][ Habitants : 123 ][ EstCapitale : non ]', NULL, 'lieu');
 
 
 --
 -- Data for Name: lieu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.lieu (id, ville, taille, habitant, estcapitale) FROM stdin;
-29	Ottawa	123	456	oui
-30	Saint-Ulrich	1234	123	non
-14	sertyu	123	12	non
-15	hagenau	123	12	non
-2	Matane	228	14342	non
-\.
+INSERT INTO public.lieu VALUES (30, 'Saint-Ulrich', 1234, 123, 'non');
+INSERT INTO public.lieu VALUES (14, 'sertyu', 123, 12, 'non');
+INSERT INTO public.lieu VALUES (15, 'hagenau', 123, 12, 'non');
+INSERT INTO public.lieu VALUES (2, 'Matane', 228, 14342, 'non');
+INSERT INTO public.lieu VALUES (29, 'Ottawa', 123, 456, 'non');
 
 
 --
 -- Data for Name: poisson; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.poisson (id, nom, famille, taille, poids, id_lieu) FROM stdin;
-3	brochet	Esox Lucuis	86	4521	2
-5	silure	siluridé	156	6542	2
-20	aze	aze	123	123	15
-\.
+INSERT INTO public.poisson VALUES (3, 'brochet', 'Esox Lucuis', 86, 4521, 2);
+INSERT INTO public.poisson VALUES (5, 'silure', 'siluridé', 156, 6542, 2);
+INSERT INTO public.poisson VALUES (20, 'aze', 'aze', 123, 123, 15);
 
 
 --
 -- Data for Name: statlieu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.statlieu (id, date, nombre_lieu, moyene_habitant, moyene_taille, checksum) FROM stdin;
-1	2018-09-26 22:13:02.983209-04	5	28684121	366.19999999999999	
-2	2018-09-26 22:35:35.259133-04	5	28684121	366.19999999999999	Ottawa-Saint-Ulrich-sertyu-Matane-hagenau
-3	2018-09-26 22:37:32.505483-04	5	28684121	366.19999999999999	fdf85bdf9acdb11f145fea4ab0d1b18b
-4	2018-09-28 17:03:16.857532-04	5	28684121	366.19999999999999	4627db04f7b91f7faac3832cbff9c9f6
-5	2018-09-28 17:03:48.453046-04	5	28684121	366.19999999999999	4627db04f7b91f7faac3832cbff9c9f6
-6	2018-09-28 17:06:09.432903-04	5	2989	366.19999999999999	298192107045b52b1c3924401acded1e
-7	2018-09-28 17:06:14.699252-04	5	2989	366.19999999999999	298192107045b52b1c3924401acded1e
-\.
+INSERT INTO public.statlieu VALUES (1, '2018-09-26 22:13:02.983209-04', 5, 28684121, 366.19999999999999, '');
+INSERT INTO public.statlieu VALUES (2, '2018-09-26 22:35:35.259133-04', 5, 28684121, 366.19999999999999, 'Ottawa-Saint-Ulrich-sertyu-Matane-hagenau');
+INSERT INTO public.statlieu VALUES (3, '2018-09-26 22:37:32.505483-04', 5, 28684121, 366.19999999999999, 'fdf85bdf9acdb11f145fea4ab0d1b18b');
+INSERT INTO public.statlieu VALUES (4, '2018-09-28 17:03:16.857532-04', 5, 28684121, 366.19999999999999, '4627db04f7b91f7faac3832cbff9c9f6');
+INSERT INTO public.statlieu VALUES (5, '2018-09-28 17:03:48.453046-04', 5, 28684121, 366.19999999999999, '4627db04f7b91f7faac3832cbff9c9f6');
+INSERT INTO public.statlieu VALUES (6, '2018-09-28 17:06:09.432903-04', 5, 2989, 366.19999999999999, '298192107045b52b1c3924401acded1e');
+INSERT INTO public.statlieu VALUES (7, '2018-09-28 17:06:14.699252-04', 5, 2989, 366.19999999999999, '298192107045b52b1c3924401acded1e');
 
 
 --
 -- Data for Name: statpoisson; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.statpoisson (id, date, checksum, moyene_taille, moyene_poids, nombre_poisson) FROM stdin;
-1	2018-09-26 22:51:18.133171-04	bebd990ddb07035f226d64f5d8794f59	121.66666666666667	3728.66666666667	3
-\.
+INSERT INTO public.statpoisson VALUES (1, '2018-09-26 22:51:18.133171-04', 'bebd990ddb07035f226d64f5d8794f59', 121.66666666666667, '3728.66666666667', 3);
 
 
 --
 -- Name: journal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.journal_id_seq', 50, true);
+SELECT pg_catalog.setval('public.journal_id_seq', 53, true);
 
 
 --
 -- Name: lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lieu_id_seq', 30, true);
+SELECT pg_catalog.setval('public.lieu_id_seq', 31, true);
 
 
 --
@@ -538,6 +553,13 @@ CREATE TRIGGER evenementlieu BEFORE INSERT OR DELETE OR UPDATE ON public.lieu FO
 
 ALTER TABLE ONLY public.poisson
     ADD CONSTRAINT fk_id_lieu FOREIGN KEY (id_lieu) REFERENCES public.lieu(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
